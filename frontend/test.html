@@ -1,0 +1,1175 @@
+<!-- Banno CRM Mobile Dashboard -->
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-tertiary-fixed": "#351000", "secondary-fixed": "#dce2f7", "outline": "#777587", "on-surface": "#151c27", "on-secondary-fixed": "#141b2b", "surface-container-highest": "#dce2f3", "primary-fixed-dim": "#c3c0ff", "on-primary-fixed-variant": "#3323cc", "inverse-on-surface": "#ebf1ff", "on-error-container": "#93000a", "background": "#f9f9ff", "on-primary-container": "#dad7ff", "tertiary": "#7e3000", "surface-bright": "#f9f9ff", "on-tertiary": "#ffffff", "surface-container-low": "#f0f3ff", "primary-fixed": "#e2dfff", "secondary-fixed-dim": "#c0c6db", "error": "#ba1a1a", "surface-container-lowest": "#ffffff", "on-secondary-fixed-variant": "#404758", "secondary-container": "#d9dff5", "surface": "#f9f9ff", "surface-tint": "#4d44e3", "inverse-primary": "#c3c0ff", "outline-variant": "#c7c4d8", "on-primary": "#ffffff", "tertiary-container": "#a44100", "surface-container": "#e7eefe", "tertiary-fixed-dim": "#ffb695", "primary-container": "#4f46e5", "error-container": "#ffdad6", "on-tertiary-fixed-variant": "#7b2f00", "on-primary-fixed": "#0f0069", "on-secondary-container": "#5c6274", "surface-variant": "#dce2f3", "on-background": "#151c27", "on-error": "#ffffff", "on-tertiary-container": "#ffd2be", "tertiary-fixed": "#ffdbcc", "inverse-surface": "#2a313d", "surface-dim": "#d3daea", "secondary": "#575e70", "primary": "#3525cd", "on-surface-variant": "#464555", "surface-container-high": "#e2e8f8", "on-secondary": "#ffffff" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xl": "2rem", "gutter": "1.25rem", "margin": "2rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-lg": "1.25rem", "gutter-mobile": "0.75rem", "space-md": "0.75rem", "margin-mobile": "1rem" }, fontFamily: { "micro-header": ["Hanken Grotesk"], "display-lg": ["Manrope"], "headline-sm": ["Manrope"], "body-lg": ["Hanken Grotesk"], "headline-md": ["Manrope"], "headline-lg": ["Manrope"], "label-sm": ["Hanken Grotesk"], "label-md": ["Hanken Grotesk"], "body-sm": ["Hanken Grotesk"], "body-md": ["Hanken Grotesk"] }, fontSize: { "micro-header": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.08em", "fontWeight": "600" }], "display-lg": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "700" }], "headline-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-lg": ["1rem", { "lineHeight": "1.5rem", "fontWeight": "400" }], "headline-md": ["1.375rem", { "lineHeight": "1.875rem", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-lg": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.02em", "fontWeight": "600" }], "label-sm": ["0.75rem", { "lineHeight": "1rem", "fontWeight": "500" }], "label-md": ["0.875rem", { "lineHeight": "1.25rem", "fontWeight": "500" }], "body-sm": ["0.8125rem", { "lineHeight": "1.125rem", "fontWeight": "400" }], "body-md": ["0.875rem", { "lineHeight": "1.25rem", "fontWeight": "400" }] } } } };</script><style>@layer base { html, body { width: 100%; margin: 0; padding: 0; background-color: #f9f9ff; -webkit-tap-highlight-color: transparent; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-28 px-gutter flex flex-col justify-between py-space-xs"><div class="flex items-center justify-between text-on-surface px-1 h-5"><span class="font-headline-sm text-headline-sm tracking-tight text-[14px]">9:41</span><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[17px]">signal_cellular_4_bar</span><span class="material-symbols-outlined text-[17px]">wifi</span><span class="material-symbols-outlined text-[19px]">battery_charging_full</span></div></div><div class="flex items-center justify-between"><div class="flex flex-col"><div class="flex items-center gap-1.5"><span class="font-headline-md text-headline-md text-on-surface tracking-tight">Banno<span class="text-primary">CRM</span></span><span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span></div><div class="flex items-center gap-2"><span class="font-label-sm text-label-sm text-on-surface-variant">Tuesday, Oct 24</span><span class="font-micro-header text-micro-header text-primary uppercase">Dashboard</span></div></div><div class="flex items-center gap-space-xs"><button class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">search</span></button><button class="relative w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error"></span></button><div class="relative flex items-center justify-center ml-1"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-primary-container ring-2 ring-surface"></span></div></div></div></div></header><main class="flex flex-col relative w-full pt-28 pb-28 px-gutter bg-surface flex-grow"><div class="flex flex-col w-full space-y-6 pb-6">
+<!-- Section 1: Agents Workspace -->
+<section class="flex flex-col w-full space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-micro-header text-micro-header text-on-surface-variant uppercase tracking-wider">Agents Workspace</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-medium">4 Online</span>
+</div>
+<!-- Horizontal scrollable flex row -->
+<div class="flex overflow-x-auto gap-3 -mx-gutter px-gutter pb-1 scrollbar-none snap-x">
+<!-- Agent 1: Luna -->
+<div class="flex-shrink-0 w-56 bg-surface-container-lowest rounded-xl p-3.5 shadow-sm snap-start flex flex-col justify-between space-y-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="relative w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+<span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface leading-tight text-sm font-semibold">Luna</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Sales Concierge</p>
+</div>
+</div>
+<span class="font-micro-header text-micro-header px-1.5 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-medium">8 sess</span>
+</div>
+<div class="bg-surface-container-low rounded-lg px-2.5 py-1.5 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Handled today</span>
+<span class="font-headline-sm text-headline-sm text-on-surface text-xs font-semibold">$4,280</span>
+</div>
+</div>
+<!-- Agent 2: Atlas -->
+<div class="flex-shrink-0 w-56 bg-surface-container-lowest rounded-xl p-3.5 shadow-sm snap-start flex flex-col justify-between space-y-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="relative w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">support_agent</span>
+<span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-teal-500 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface leading-tight text-sm font-semibold">Atlas</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Support Triage</p>
+</div>
+</div>
+<span class="font-micro-header text-micro-header px-1.5 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-medium">14 queued</span>
+</div>
+<div class="bg-surface-container-low rounded-lg px-2.5 py-1.5 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Resolution</span>
+<span class="font-headline-sm text-headline-sm text-on-surface text-xs font-semibold">98.2%</span>
+</div>
+</div>
+<!-- Agent 3: Nova -->
+<div class="flex-shrink-0 w-56 bg-surface-container-lowest rounded-xl p-3.5 shadow-sm snap-start flex flex-col justify-between space-y-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="relative w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+<span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-amber-500 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface leading-tight text-sm font-semibold">Nova</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">VIP Retention</p>
+</div>
+</div>
+<span class="font-micro-header text-micro-header px-1.5 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-medium">Standby</span>
+</div>
+<div class="bg-surface-container-low rounded-lg px-2.5 py-1.5 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Flagged risks</span>
+<span class="font-headline-sm text-headline-sm text-tertiary-container text-xs font-semibold">4 accounts</span>
+</div>
+</div>
+<!-- Agent 4: Orion -->
+<div class="flex-shrink-0 w-56 bg-surface-container-lowest rounded-xl p-3.5 shadow-sm snap-start flex flex-col justify-between space-y-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="relative w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+<span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface leading-tight text-sm font-semibold">Orion</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Logistics</p>
+</div>
+</div>
+<span class="font-micro-header text-micro-header px-1.5 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-medium">3 resolving</span>
+</div>
+<div class="bg-surface-container-low rounded-lg px-2.5 py-1.5 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Auto return rate</span>
+<span class="font-headline-sm text-headline-sm text-on-surface text-xs font-semibold">91%</span>
+</div>
+</div>
+<!-- Add Agent Card -->
+<button class="flex-shrink-0 w-28 bg-surface-container-lowest/60 rounded-xl p-3.5 shadow-sm flex flex-col items-center justify-center text-center gap-1.5 active:scale-95 transition-transform">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium text-[11px]">New Agent</span>
+</button>
+</div>
+</section>
+<!-- Section 2: Urgent Action Section (Human-in-the-Loop) -->
+<section class="flex flex-col w-full space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-micro-header text-micro-header text-on-surface-variant uppercase tracking-wider">Needs You (Manual Review)</span>
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+</div>
+<span class="font-micro-header text-micro-header text-error uppercase font-bold tracking-tight">Priority 1</span>
+</div>
+<!-- Human-in-the-loop Card -->
+<div class="relative bg-surface-container-lowest rounded-xl p-4 shadow-sm overflow-hidden flex flex-col space-y-3.5">
+<!-- Ambient warm accent bar -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container"></div>
+<!-- VIP Header Row -->
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-micro-header text-micro-header font-bold uppercase tracking-wide">
+            VIP Tier 1
+          </span>
+<span class="font-headline-sm text-headline-sm text-on-surface text-sm font-semibold truncate">Sarah Jenkins</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px] flex-shrink-0">#BN-9481</span>
+</div>
+<!-- Problem Statement -->
+<div class="bg-surface-container-low/70 rounded-lg p-3">
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed">
+          Flagged <strong class="text-on-surface font-semibold">$1,240</strong> custom bundle refund request due to minor courier packaging delay. AI proposed <strong class="text-primary font-semibold">15% discount voucher ($186)</strong> + overnight replacement instead of full cash return.
+        </p>
+</div>
+<!-- Confidence & Metrics Pill -->
+<div class="flex items-center justify-between py-0.5 text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-primary">auto_awesome</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Confidence: <strong class="text-on-surface font-semibold">89%</strong></span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-emerald-600">moving</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Est. retention: <strong class="text-emerald-700 font-semibold">94%</strong></span>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-2 pt-1">
+<button class="w-full h-9 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-medium flex items-center justify-center gap-1.5 shadow-sm active:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-[17px]">verified</span>
+          Approve Voucher &amp; Ship
+        </button>
+<div class="grid grid-cols-2 gap-2">
+<button class="h-8 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-medium flex items-center justify-center gap-1 active:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[15px]">edit_note</span>
+            Revise
+          </button>
+<button class="h-8 rounded-lg bg-error-container text-on-error-container font-label-sm text-label-sm font-medium flex items-center justify-center gap-1 active:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[15px]">close</span>
+            Escalate
+          </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Performance & Insights (Data Visualization) -->
+<section class="flex flex-col w-full space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-micro-header text-micro-header text-on-surface-variant uppercase tracking-wider">Performance &amp; Insights</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Updated 2m ago</span>
+</div>
+<!-- 2x2 Metric Grid -->
+<div class="grid grid-cols-2 gap-2.5">
+<!-- Metric 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex flex-col justify-between space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Avg Response</span>
+<span class="w-6 h-6 rounded-md bg-emerald-100 flex items-center justify-center text-emerald-800">
+<span class="material-symbols-outlined text-[15px]">schedule</span>
+</span>
+</div>
+<div>
+<div class="font-display-lg text-headline-lg text-on-surface font-bold leading-none">2m</div>
+<div class="flex items-center gap-1 mt-1.5">
+<span class="material-symbols-outlined text-[13px] text-emerald-600 font-bold">arrow_downward</span>
+<span class="font-micro-header text-micro-header text-emerald-700 font-semibold">-35s today</span>
+</div>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex flex-col justify-between space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Chat-to-Sale</span>
+<span class="w-6 h-6 rounded-md bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined text-[15px]">trending_up</span>
+</span>
+</div>
+<div>
+<div class="font-display-lg text-headline-lg text-on-surface font-bold leading-none">18.4%</div>
+<div class="flex items-center gap-1 mt-1.5">
+<span class="material-symbols-outlined text-[13px] text-emerald-600 font-bold">arrow_upward</span>
+<span class="font-micro-header text-micro-header text-emerald-700 font-semibold">+3.2% vs avg</span>
+</div>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex flex-col justify-between space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Follow-up Rate</span>
+<span class="w-6 h-6 rounded-md bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[15px]">done_all</span>
+</span>
+</div>
+<div>
+<div class="font-display-lg text-headline-lg text-on-surface font-bold leading-none">76%</div>
+<div class="flex items-center gap-1 mt-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+<span class="font-micro-header text-micro-header text-on-surface-variant font-medium">Target: 70%</span>
+</div>
+</div>
+</div>
+<!-- Metric 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex flex-col justify-between space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Autonomous Fix</span>
+<span class="w-6 h-6 rounded-md bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[15px]">psychology</span>
+</span>
+</div>
+<div>
+<div class="font-display-lg text-headline-lg text-on-surface font-bold leading-none">84.5%</div>
+<div class="flex items-center gap-1 mt-1.5">
+<span class="font-micro-header text-micro-header text-on-surface-variant font-medium truncate">1,420 resolved</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Automated Reply Rates Breakdown Card -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-3.5">
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface text-sm font-semibold">Automated Reply Rates</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Breakdown by urgency routing</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">tune</span>
+</div>
+<!-- Bars List -->
+<div class="space-y-3 pt-1">
+<!-- Urgent -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-label-sm text-label-sm text-on-surface font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-red-400 inline-block"></span>
+              Urgent (Immediate actions needed)
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">92%</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-red-400 rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<!-- High Priority -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-label-sm text-label-sm text-on-surface font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-amber-400 inline-block"></span>
+              High Priority (Bulk orders, Payments)
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">85%</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-amber-400 rounded-full" style="width: 85%"></div>
+</div>
+</div>
+<!-- Low Priority -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-label-sm text-label-sm text-on-surface font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
+              Low Priority (Product Q&amp;A, Returns)
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">97%</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-emerald-400 rounded-full" style="width: 97%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Channel Performance Indicator -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-pink-100 flex items-center justify-center text-pink-600">
+<span class="material-symbols-outlined text-[17px]">photo_camera</span>
+</div>
+<div>
+<span class="font-micro-header text-micro-header text-on-surface-variant uppercase tracking-wider block text-[10px]">Top Channel</span>
+<h5 class="font-headline-sm text-headline-sm text-on-surface text-sm font-semibold">Instagram DM (45%)</h5>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-micro-header text-micro-header font-bold">+12% vol</span>
+</div>
+<!-- Channel Multi-segment Visual Bar -->
+<div class="w-full h-2 rounded-full overflow-hidden flex bg-surface-container">
+<div class="h-full bg-pink-500" style="width: 45%" title="Instagram: 45%"></div>
+<div class="h-full bg-emerald-500" style="width: 32%" title="WhatsApp: 32%"></div>
+<div class="h-full bg-primary" style="width: 23%" title="Web Chat: 23%"></div>
+</div>
+<!-- Live channel legend breakdown -->
+<div class="flex items-center justify-between text-[11px] text-on-surface-variant pt-0.5">
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-pink-500 inline-block"></span>
+<span class="font-label-sm text-label-sm">IG: 45%</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
+<span class="font-label-sm text-label-sm">WhatsApp: 32%</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+<span class="font-label-sm text-label-sm">Web: 23%</span>
+</div>
+</div>
+</div>
+</section>
+</div></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/85 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary"><div class="flex items-center justify-around h-16 px-space-xs"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 transition-colors text-primary" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[24px]">grid_view</span><span class="font-label-sm text-label-sm mt-0.5">Dashboard</span></a><a class="relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 text-on-surface-variant transition-colors" data-path="inbox" href="#"><div class="relative flex items-center justify-center"><span class="material-symbols-outlined text-[24px]">mail</span><span class="absolute -top-1 -right-2 bg-error text-on-error font-micro-header text-micro-header rounded-full px-1 py-0.2 min-w-[14px] text-center leading-tight">3</span></div><span class="font-label-sm text-label-sm mt-0.5">Inbox</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 text-on-surface-variant transition-colors" data-path="analytics" href="#"><span class="material-symbols-outlined text-[24px]">insights</span><span class="font-label-sm text-label-sm mt-0.5">Analytics</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 text-on-surface-variant transition-colors" data-path="customers" href="#"><span class="material-symbols-outlined text-[24px]">group</span><span class="font-label-sm text-label-sm mt-0.5">Customers</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 text-on-surface-variant transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[24px]">tune</span><span class="font-label-sm text-label-sm mt-0.5">Settings</span></a></div><div class="flex justify-center pb-1"><div class="w-32 h-1 bg-on-surface/20 rounded-full"></div></div></nav></body></html>
+
+<!-- Banno CRM Mobile Dashboard -->
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-tertiary-fixed": "#351000", "secondary-fixed": "#dce2f7", "outline": "#777587", "on-surface": "#151c27", "on-secondary-fixed": "#141b2b", "surface-container-highest": "#dce2f3", "primary-fixed-dim": "#c3c0ff", "on-primary-fixed-variant": "#3323cc", "inverse-on-surface": "#ebf1ff", "on-error-container": "#93000a", "background": "#f9f9ff", "on-primary-container": "#dad7ff", "tertiary": "#7e3000", "surface-bright": "#f9f9ff", "on-tertiary": "#ffffff", "surface-container-low": "#f0f3ff", "primary-fixed": "#e2dfff", "secondary-fixed-dim": "#c0c6db", "error": "#ba1a1a", "surface-container-lowest": "#ffffff", "on-secondary-fixed-variant": "#404758", "secondary-container": "#d9dff5", "surface": "#f9f9ff", "surface-tint": "#4d44e3", "inverse-primary": "#c3c0ff", "outline-variant": "#c7c4d8", "on-primary": "#ffffff", "tertiary-container": "#a44100", "surface-container": "#e7eefe", "tertiary-fixed-dim": "#ffb695", "primary-container": "#4f46e5", "error-container": "#ffdad6", "on-tertiary-fixed-variant": "#7b2f00", "on-primary-fixed": "#0f0069", "on-secondary-container": "#5c6274", "surface-variant": "#dce2f3", "on-background": "#151c27", "on-error": "#ffffff", "on-tertiary-container": "#ffd2be", "tertiary-fixed": "#ffdbcc", "inverse-surface": "#2a313d", "surface-dim": "#d3daea", "secondary": "#575e70", "primary": "#3525cd", "on-surface-variant": "#464555", "surface-container-high": "#e2e8f8", "on-secondary": "#ffffff" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xl": "2rem", "gutter": "1.25rem", "margin": "2rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-lg": "1.25rem", "gutter-mobile": "0.75rem", "space-md": "0.75rem", "margin-mobile": "1rem" }, fontFamily: { "micro-header": ["Hanken Grotesk"], "display-lg": ["Manrope"], "headline-sm": ["Manrope"], "body-lg": ["Hanken Grotesk"], "headline-md": ["Manrope"], "headline-lg": ["Manrope"], "label-sm": ["Hanken Grotesk"], "label-md": ["Hanken Grotesk"], "body-sm": ["Hanken Grotesk"], "body-md": ["Hanken Grotesk"] }, fontSize: { "micro-header": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.08em", "fontWeight": "600" }], "display-lg": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "700" }], "headline-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-lg": ["1rem", { "lineHeight": "1.5rem", "fontWeight": "400" }], "headline-md": ["1.375rem", { "lineHeight": "1.875rem", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-lg": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.02em", "fontWeight": "600" }], "label-sm": ["0.75rem", { "lineHeight": "1rem", "fontWeight": "500" }], "label-md": ["0.875rem", { "lineHeight": "1.25rem", "fontWeight": "500" }], "body-sm": ["0.8125rem", { "lineHeight": "1.125rem", "fontWeight": "400" }], "body-md": ["0.875rem", { "lineHeight": "1.25rem", "fontWeight": "400" }] } } } };</script><style>@layer base { html, body { width: 100%; margin: 0; padding: 0; background-color: #f9f9ff; -webkit-tap-highlight-color: transparent; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-28 px-gutter flex flex-col justify-between py-space-xs"><div class="flex items-center justify-between text-on-surface px-1 h-5"><span class="font-headline-sm text-headline-sm tracking-tight text-[14px]">9:41</span><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[17px]">signal_cellular_4_bar</span><span class="material-symbols-outlined text-[17px]">wifi</span><span class="material-symbols-outlined text-[19px]">battery_charging_full</span></div></div><div class="flex items-center justify-between"><div class="flex flex-col"><div class="flex items-center gap-1.5"><span class="font-headline-md text-headline-md text-on-surface tracking-tight">Banno<span class="text-primary">CRM</span></span><span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span></div><div class="flex items-center gap-2"><span class="font-label-sm text-label-sm text-on-surface-variant">Tuesday, Oct 24</span><span class="font-micro-header text-micro-header text-primary uppercase">Dashboard</span></div></div><div class="flex items-center gap-space-xs"><button class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">search</span></button><button class="relative w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error"></span></button><div class="relative flex items-center justify-center ml-1"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-primary-container ring-2 ring-surface"></span></div></div></div></div></header><main class="flex flex-col relative w-full pt-28 pb-28 px-gutter bg-surface flex-grow"><div class="flex flex-col w-full space-y-6 pb-6">
+<!-- Section 1: Agents Workspace -->
+<section class="flex flex-col w-full space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-micro-header text-micro-header text-on-surface-variant uppercase tracking-wider">Agents Workspace</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-medium">4 Online</span>
+</div>
+<!-- Horizontal scrollable flex row -->
+<div class="flex overflow-x-auto gap-3 -mx-gutter px-gutter pb-1 scrollbar-none snap-x">
+<!-- Agent 1: Luna -->
+<div class="flex-shrink-0 w-56 bg-surface-container-lowest rounded-xl p-3.5 shadow-sm snap-start flex flex-col justify-between space-y-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="relative w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+<span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface leading-tight text-sm font-semibold">Luna</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Sales Concierge</p>
+</div>
+</div>
+<span class="font-micro-header text-micro-header px-1.5 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-medium">8 sess</span>
+</div>
+<div class="bg-surface-container-low rounded-lg px-2.5 py-1.5 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Handled today</span>
+<span class="font-headline-sm text-headline-sm text-on-surface text-xs font-semibold">$4,280</span>
+</div>
+</div>
+<!-- Agent 2: Atlas -->
+<div class="flex-shrink-0 w-56 bg-surface-container-lowest rounded-xl p-3.5 shadow-sm snap-start flex flex-col justify-between space-y-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="relative w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">support_agent</span>
+<span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-teal-500 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface leading-tight text-sm font-semibold">Atlas</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Support Triage</p>
+</div>
+</div>
+<span class="font-micro-header text-micro-header px-1.5 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-medium">14 queued</span>
+</div>
+<div class="bg-surface-container-low rounded-lg px-2.5 py-1.5 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Resolution</span>
+<span class="font-headline-sm text-headline-sm text-on-surface text-xs font-semibold">98.2%</span>
+</div>
+</div>
+<!-- Agent 3: Nova -->
+<div class="flex-shrink-0 w-56 bg-surface-container-lowest rounded-xl p-3.5 shadow-sm snap-start flex flex-col justify-between space-y-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="relative w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+<span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-amber-500 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface leading-tight text-sm font-semibold">Nova</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">VIP Retention</p>
+</div>
+</div>
+<span class="font-micro-header text-micro-header px-1.5 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-medium">Standby</span>
+</div>
+<div class="bg-surface-container-low rounded-lg px-2.5 py-1.5 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Flagged risks</span>
+<span class="font-headline-sm text-headline-sm text-tertiary-container text-xs font-semibold">4 accounts</span>
+</div>
+</div>
+<!-- Agent 4: Orion -->
+<div class="flex-shrink-0 w-56 bg-surface-container-lowest rounded-xl p-3.5 shadow-sm snap-start flex flex-col justify-between space-y-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="relative w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+<span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm text-on-surface leading-tight text-sm font-semibold">Orion</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Logistics</p>
+</div>
+</div>
+<span class="font-micro-header text-micro-header px-1.5 py-0.5 rounded bg-surface-container-low text-on-surface-variant font-medium">3 resolving</span>
+</div>
+<div class="bg-surface-container-low rounded-lg px-2.5 py-1.5 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Auto return rate</span>
+<span class="font-headline-sm text-headline-sm text-on-surface text-xs font-semibold">91%</span>
+</div>
+</div>
+<!-- Add Agent Card -->
+<button class="flex-shrink-0 w-28 bg-surface-container-lowest/60 rounded-xl p-3.5 shadow-sm flex flex-col items-center justify-center text-center gap-1.5 active:scale-95 transition-transform">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium text-[11px]">New Agent</span>
+</button>
+</div>
+</section>
+<!-- Section 2: Urgent Action Section (Human-in-the-Loop) -->
+<section class="flex flex-col w-full space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-micro-header text-micro-header text-on-surface-variant uppercase tracking-wider">Needs You (Manual Review)</span>
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+</div>
+<span class="font-micro-header text-micro-header text-error uppercase font-bold tracking-tight">Priority 1</span>
+</div>
+<!-- Human-in-the-loop Card -->
+<div class="relative bg-surface-container-lowest rounded-xl p-4 shadow-sm overflow-hidden flex flex-col space-y-3.5">
+<!-- Ambient warm accent bar -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container"></div>
+<!-- VIP Header Row -->
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-micro-header text-micro-header font-bold uppercase tracking-wide">
+            VIP Tier 1
+          </span>
+<span class="font-headline-sm text-headline-sm text-on-surface text-sm font-semibold truncate">Sarah Jenkins</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px] flex-shrink-0">#BN-9481</span>
+</div>
+<!-- Problem Statement -->
+<div class="bg-surface-container-low/70 rounded-lg p-3">
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed">
+          Flagged <strong class="text-on-surface font-semibold">$1,240</strong> custom bundle refund request due to minor courier packaging delay. AI proposed <strong class="text-primary font-semibold">15% discount voucher ($186)</strong> + overnight replacement instead of full cash return.
+        </p>
+</div>
+<!-- Confidence & Metrics Pill -->
+<div class="flex items-center justify-between py-0.5 text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-primary">auto_awesome</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Confidence: <strong class="text-on-surface font-semibold">89%</strong></span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-emerald-600">moving</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Est. retention: <strong class="text-emerald-700 font-semibold">94%</strong></span>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-2 pt-1">
+<button class="w-full h-9 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-medium flex items-center justify-center gap-1.5 shadow-sm active:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-[17px]">verified</span>
+          Approve Voucher &amp; Ship
+        </button>
+<div class="grid grid-cols-2 gap-2">
+<button class="h-8 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-medium flex items-center justify-center gap-1 active:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[15px]">edit_note</span>
+            Revise
+          </button>
+<button class="h-8 rounded-lg bg-error-container text-on-error-container font-label-sm text-label-sm font-medium flex items-center justify-center gap-1 active:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[15px]">close</span>
+            Escalate
+          </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Performance & Insights (Data Visualization) -->
+<section class="flex flex-col w-full space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-micro-header text-micro-header text-on-surface-variant uppercase tracking-wider">Performance &amp; Insights</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Updated 2m ago</span>
+</div>
+<!-- 2x2 Metric Grid -->
+<div class="grid grid-cols-2 gap-2.5">
+<!-- Metric 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex flex-col justify-between space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Avg Response</span>
+<span class="w-6 h-6 rounded-md bg-emerald-100 flex items-center justify-center text-emerald-800">
+<span class="material-symbols-outlined text-[15px]">schedule</span>
+</span>
+</div>
+<div>
+<div class="font-display-lg text-headline-lg text-on-surface font-bold leading-none">2m</div>
+<div class="flex items-center gap-1 mt-1.5">
+<span class="material-symbols-outlined text-[13px] text-emerald-600 font-bold">arrow_downward</span>
+<span class="font-micro-header text-micro-header text-emerald-700 font-semibold">-35s today</span>
+</div>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex flex-col justify-between space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Chat-to-Sale</span>
+<span class="w-6 h-6 rounded-md bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined text-[15px]">trending_up</span>
+</span>
+</div>
+<div>
+<div class="font-display-lg text-headline-lg text-on-surface font-bold leading-none">18.4%</div>
+<div class="flex items-center gap-1 mt-1.5">
+<span class="material-symbols-outlined text-[13px] text-emerald-600 font-bold">arrow_upward</span>
+<span class="font-micro-header text-micro-header text-emerald-700 font-semibold">+3.2% vs avg</span>
+</div>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex flex-col justify-between space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Follow-up Rate</span>
+<span class="w-6 h-6 rounded-md bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[15px]">done_all</span>
+</span>
+</div>
+<div>
+<div class="font-display-lg text-headline-lg text-on-surface font-bold leading-none">76%</div>
+<div class="flex items-center gap-1 mt-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+<span class="font-micro-header text-micro-header text-on-surface-variant font-medium">Target: 70%</span>
+</div>
+</div>
+</div>
+<!-- Metric 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex flex-col justify-between space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Autonomous Fix</span>
+<span class="w-6 h-6 rounded-md bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[15px]">psychology</span>
+</span>
+</div>
+<div>
+<div class="font-display-lg text-headline-lg text-on-surface font-bold leading-none">84.5%</div>
+<div class="flex items-center gap-1 mt-1.5">
+<span class="font-micro-header text-micro-header text-on-surface-variant font-medium truncate">1,420 resolved</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Automated Reply Rates Breakdown Card -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-3.5">
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface text-sm font-semibold">Automated Reply Rates</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Breakdown by urgency routing</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">tune</span>
+</div>
+<!-- Bars List -->
+<div class="space-y-3 pt-1">
+<!-- Urgent -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-label-sm text-label-sm text-on-surface font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-red-400 inline-block"></span>
+              Urgent (Immediate actions needed)
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">92%</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-red-400 rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<!-- High Priority -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-label-sm text-label-sm text-on-surface font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-amber-400 inline-block"></span>
+              High Priority (Bulk orders, Payments)
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">85%</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-amber-400 rounded-full" style="width: 85%"></div>
+</div>
+</div>
+<!-- Low Priority -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[11px]">
+<span class="font-label-sm text-label-sm text-on-surface font-medium flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
+              Low Priority (Product Q&amp;A, Returns)
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">97%</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-emerald-400 rounded-full" style="width: 97%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Channel Performance Indicator -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-pink-100 flex items-center justify-center text-pink-600">
+<span class="material-symbols-outlined text-[17px]">photo_camera</span>
+</div>
+<div>
+<span class="font-micro-header text-micro-header text-on-surface-variant uppercase tracking-wider block text-[10px]">Top Channel</span>
+<h5 class="font-headline-sm text-headline-sm text-on-surface text-sm font-semibold">Instagram DM (45%)</h5>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-micro-header text-micro-header font-bold">+12% vol</span>
+</div>
+<!-- Channel Multi-segment Visual Bar -->
+<div class="w-full h-2 rounded-full overflow-hidden flex bg-surface-container">
+<div class="h-full bg-pink-500" style="width: 45%" title="Instagram: 45%"></div>
+<div class="h-full bg-emerald-500" style="width: 32%" title="WhatsApp: 32%"></div>
+<div class="h-full bg-primary" style="width: 23%" title="Web Chat: 23%"></div>
+</div>
+<!-- Live channel legend breakdown -->
+<div class="flex items-center justify-between text-[11px] text-on-surface-variant pt-0.5">
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-pink-500 inline-block"></span>
+<span class="font-label-sm text-label-sm">IG: 45%</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
+<span class="font-label-sm text-label-sm">WhatsApp: 32%</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+<span class="font-label-sm text-label-sm">Web: 23%</span>
+</div>
+</div>
+</div>
+</section>
+</div></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/85 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary"><div class="flex items-center justify-around h-16 px-space-xs"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 transition-colors text-primary" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[24px]">grid_view</span><span class="font-label-sm text-label-sm mt-0.5">Dashboard</span></a><a class="relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 text-on-surface-variant transition-colors" data-path="inbox" href="#"><div class="relative flex items-center justify-center"><span class="material-symbols-outlined text-[24px]">mail</span><span class="absolute -top-1 -right-2 bg-error text-on-error font-micro-header text-micro-header rounded-full px-1 py-0.2 min-w-[14px] text-center leading-tight">3</span></div><span class="font-label-sm text-label-sm mt-0.5">Inbox</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 text-on-surface-variant transition-colors" data-path="analytics" href="#"><span class="material-symbols-outlined text-[24px]">insights</span><span class="font-label-sm text-label-sm mt-0.5">Analytics</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 text-on-surface-variant transition-colors" data-path="customers" href="#"><span class="material-symbols-outlined text-[24px]">group</span><span class="font-label-sm text-label-sm mt-0.5">Customers</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 text-on-surface-variant transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[24px]">tune</span><span class="font-label-sm text-label-sm mt-0.5">Settings</span></a></div><div class="flex justify-center pb-1"><div class="w-32 h-1 bg-on-surface/20 rounded-full"></div></div></nav></body></html>
+
+<!-- Banno CRM Mobile Inbox -->
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-tertiary-fixed": "#351000", "secondary-fixed": "#dce2f7", "outline": "#777587", "on-surface": "#151c27", "on-secondary-fixed": "#141b2b", "surface-container-highest": "#dce2f3", "primary-fixed-dim": "#c3c0ff", "on-primary-fixed-variant": "#3323cc", "inverse-on-surface": "#ebf1ff", "on-error-container": "#93000a", "background": "#f9f9ff", "on-primary-container": "#dad7ff", "tertiary": "#7e3000", "surface-bright": "#f9f9ff", "on-tertiary": "#ffffff", "surface-container-low": "#f0f3ff", "primary-fixed": "#e2dfff", "secondary-fixed-dim": "#c0c6db", "error": "#ba1a1a", "surface-container-lowest": "#ffffff", "on-secondary-fixed-variant": "#404758", "secondary-container": "#d9dff5", "surface": "#f9f9ff", "surface-tint": "#4d44e3", "inverse-primary": "#c3c0ff", "outline-variant": "#c7c4d8", "on-primary": "#ffffff", "tertiary-container": "#a44100", "surface-container": "#e7eefe", "tertiary-fixed-dim": "#ffb695", "primary-container": "#4f46e5", "error-container": "#ffdad6", "on-tertiary-fixed-variant": "#7b2f00", "on-primary-fixed": "#0f0069", "on-secondary-container": "#5c6274", "surface-variant": "#dce2f3", "on-background": "#151c27", "on-error": "#ffffff", "on-tertiary-container": "#ffd2be", "tertiary-fixed": "#ffdbcc", "inverse-surface": "#2a313d", "surface-dim": "#d3daea", "secondary": "#575e70", "primary": "#3525cd", "on-surface-variant": "#464555", "surface-container-high": "#e2e8f8", "on-secondary": "#ffffff" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xl": "2rem", "gutter": "1.25rem", "margin": "2rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-lg": "1.25rem", "gutter-mobile": "0.75rem", "space-md": "0.75rem", "margin-mobile": "1rem" }, fontFamily: { "micro-header": ["Hanken Grotesk"], "display-lg": ["Manrope"], "headline-sm": ["Manrope"], "body-lg": ["Hanken Grotesk"], "headline-md": ["Manrope"], "headline-lg": ["Manrope"], "label-sm": ["Hanken Grotesk"], "label-md": ["Hanken Grotesk"], "body-sm": ["Hanken Grotesk"], "body-md": ["Hanken Grotesk"] }, fontSize: { "micro-header": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.08em", "fontWeight": "600" }], "display-lg": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "700" }], "headline-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-lg": ["1rem", { "lineHeight": "1.5rem", "fontWeight": "400" }], "headline-md": ["1.375rem", { "lineHeight": "1.875rem", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-lg": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.02em", "fontWeight": "600" }], "label-sm": ["0.75rem", { "lineHeight": "1rem", "fontWeight": "500" }], "label-md": ["0.875rem", { "lineHeight": "1.25rem", "fontWeight": "500" }], "body-sm": ["0.8125rem", { "lineHeight": "1.125rem", "fontWeight": "400" }], "body-md": ["0.875rem", { "lineHeight": "1.25rem", "fontWeight": "400" }] } } } };</script><style>@layer base { html, body { width: 100%; margin: 0; padding: 0; background-color: #f9f9ff; -webkit-tap-highlight-color: transparent; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-28 px-gutter flex flex-col justify-between py-space-xs"><div class="flex items-center justify-between text-on-surface px-1 h-5"><span class="font-headline-sm text-headline-sm tracking-tight text-[14px]">9:41</span><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[17px]">signal_cellular_4_bar</span><span class="material-symbols-outlined text-[17px]">wifi</span><span class="material-symbols-outlined text-[19px]">battery_charging_full</span></div></div><div class="flex items-center justify-between"><div class="flex flex-col"><div class="flex items-center gap-1.5"><span class="font-headline-md text-headline-md text-on-surface tracking-tight">Banno<span class="text-primary">CRM</span></span><span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span></div><div class="flex items-center gap-2"><span class="font-label-sm text-label-sm text-on-surface-variant">Tuesday, Oct 24</span><span class="font-micro-header text-micro-header text-primary uppercase">Dashboard</span></div></div><div class="flex items-center gap-space-xs"><button class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">search</span></button><button class="relative w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error"></span></button><div class="relative flex items-center justify-center ml-1"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-primary-container ring-2 ring-surface"></span></div></div></div></div></header><main class="flex flex-col relative w-full pt-28 pb-28 px-gutter bg-surface flex-grow"><div class="flex flex-col w-full space-y-4">
+<div class="flex items-center justify-between gap-2">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full h-10 pl-9 pr-3 rounded-xl bg-surface-container-lowest text-body-sm font-body-sm text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none shadow-sm" placeholder="Tìm theo tên khách, mã đơn #BN..." type="text"/>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container-lowest text-on-surface shadow-sm active:scale-95 transition-transform" title="Lọc hội thoại">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+</div>
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar -mx-gutter px-gutter py-1">
+<button class="flex-shrink-0 px-3.5 py-1.5 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm shadow-sm">
+      Tất cả <span class="opacity-80 ml-0.5">38</span>
+</button>
+<button class="flex-shrink-0 px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm shadow-sm flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+      AI Triage <span class="text-on-surface-variant/70">14</span>
+</button>
+<button class="flex-shrink-0 px-3.5 py-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">priority_high</span>
+      Cần duyệt <span class="font-semibold ml-0.5">3</span>
+</button>
+<button class="flex-shrink-0 px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-tertiary">photo_camera</span>
+      Instagram DM
+    </button>
+<button class="flex-shrink-0 px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-secondary">chat</span>
+      WhatsApp
+    </button>
+<button class="flex-shrink-0 px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-primary">support_agent</span>
+      Livechat
+    </button>
+</div>
+<div class="bg-tertiary-fixed text-on-tertiary-fixed rounded-xl p-3.5 shadow-sm flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-tertiary/10 flex items-center justify-center text-tertiary flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-micro-header text-micro-header uppercase tracking-wider text-tertiary">Yêu cầu can thiệp</span>
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="font-label-sm text-label-sm text-tertiary-container font-semibold">Priority</span>
+</div>
+<p class="font-body-sm text-body-sm mt-0.5 text-on-tertiary-fixed">
+          3 cuộc hội thoại gắn cờ <strong class="font-semibold">VIP</strong> đang chờ xử lý thủ công.
+        </p>
+</div>
+</div>
+<button class="w-7 h-7 flex items-center justify-center rounded-lg bg-tertiary/10 text-tertiary hover:bg-tertiary/20 flex-shrink-0">
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<div class="flex flex-col space-y-3">
+<div class="flex items-center justify-between px-1">
+<span class="font-micro-header text-micro-header uppercase tracking-wider text-on-surface-variant">Hội thoại đang hoạt động</span>
+<span class="font-label-sm text-label-sm text-primary font-medium flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span> 3 AI tự động
+      </span>
+</div>
+<!-- Ticket 1: Sarah Jenkins -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-3 relative overflow-hidden transition-all hover:shadow-md">
+<div class="flex items-start justify-between gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-11 h-11 rounded-full object-cover" data-alt="Portrait of Sarah Jenkins, stylish professional woman in minimalist beige aesthetic studio, warm soft cinematic lighting, premium modern avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADxTG4mgFWKEJtAnw79S8ZAUAVE6ut2e0stGgX0Ow10LMdirhrvVeCxtdy8v9hSgIC5WlaSgaIxF_NH3c_z5zD3nn1qVmlI8EI5KgsFwG_F7kXyfWv6pAh-3HP6yGDojcOfa4nHsh8MYf0k21HikY3Wxh2kSCoI7HU_zzu38Giib_xD4zK-ZtVNVZmVUrx7IxzEIyoEHP5g-Kv3CVIlTvqcZP8a87_tNCGZCMKIcyskzlCTA-fIRiv"/>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[11px]">photo_camera</span>
+</div>
+<span class="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-surface-container-lowest flex items-center justify-center">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<div class="flex items-center gap-1.5 truncate">
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Sarah Jenkins</h2>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container text-on-surface-variant font-micro-header text-micro-header uppercase flex-shrink-0">VIP 1</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex-shrink-0">Vừa xong</span>
+</div>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-micro-header text-micro-header uppercase">
+              Cần duyệt hoàn tiền
+            </span>
+</div>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 pl-0.5">
+        Yêu cầu hoàn <strong class="text-on-surface font-semibold">$1,240 bundle</strong>. AI Luna đã đề xuất voucher 15% nhưng khách muốn xử lý tài khoản gốc...
+      </p>
+<div class="bg-surface-container-low rounded-lg p-2.5 flex items-center justify-between gap-2">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-6 h-6 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed flex-shrink-0">
+<span class="material-symbols-outlined text-[14px]">smart_toy</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-micro-header text-micro-header uppercase text-on-surface-variant">Phụ trách: Luna (Sales)</span>
+<span class="font-label-sm text-label-sm text-tertiary font-medium truncate">Waiting Approval</span>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary font-label-sm text-label-sm shadow-sm flex items-center gap-1 active:scale-95 transition-transform flex-shrink-0">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+          Duyệt ngay
+        </button>
+</div>
+</div>
+<!-- Ticket 2: Michael Chang -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-3 relative overflow-hidden transition-all hover:shadow-md">
+<div class="flex items-start justify-between gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-11 h-11 rounded-full object-cover" data-alt="Portrait of Michael Chang, young Asian creative entrepreneur in modern navy blue turtleneck against clean neutral architectural background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9EwK9PVtMwIRnJv2vfoAN6gRcbdjRfV74nVoTqZ_UQL3oMEfwXj0b20rytZt5yDiX8l-bv1Rd2D0b3mFKmKDQjdyfONIu4NaUNTJs7V8vudmfytfeoprlGXRTS7PYS3AA37tYhvFF5uWJjXdNpQjhyacIDiYZsROX36pZyYaiOUvS7FQqjL7BHUWe2NQEvbdkh3DFETcL_RNO-qDb_8PPZAK1uTog9hUHj-YgGSYeEaXj5vRs1cHW"/>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[11px]">chat</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Michael Chang</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex-shrink-0">3m ago</span>
+</div>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-micro-header text-micro-header uppercase">
+              Tư vấn sản phẩm
+            </span>
+</div>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 pl-0.5">
+        Sản phẩm Pro Bundle này có hỗ trợ ship hỏa tốc sang TP.HCM trong hôm nay không? Tôi đang cần gấp trước 18h.
+      </p>
+<div class="bg-surface-container-low rounded-lg p-2.5 flex items-center justify-between gap-2">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-6 h-6 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed flex-shrink-0">
+<span class="material-symbols-outlined text-[14px]">smart_toy</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-micro-header text-micro-header uppercase text-on-surface-variant">Phụ trách: Atlas (Support)</span>
+<div class="flex items-center gap-1 text-primary">
+<span class="font-label-sm text-label-sm font-medium">AI Typing...</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+</div>
+</div>
+</div>
+<button class="w-8 h-8 rounded-lg bg-surface-container-highest text-on-surface-variant hover:text-on-surface flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+</button>
+</div>
+</div>
+<!-- Ticket 3: Dang Quynh Trang -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-3 relative overflow-hidden transition-all hover:shadow-md">
+<div class="flex items-start justify-between gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-11 h-11 rounded-full object-cover" data-alt="Portrait of Vietnamese modern woman Dang Quynh Trang, smiling warmly with minimalist glasses and bright modern Scandinavian office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDz6mdHBnvfeiuyO-BUxT7HMOx-q5Gy85QnYEugxhb3iQrMN2gQ608lUuQsOIzXq-5QgAOFSCgk4SgpMhznURcBMMgr2e5zoYCm_KE-euw0Zo5vP62uR-stBv7yicEfSmvwjunj6agJ81s0lfxGoDLdAtiVmk7VQjK8wJIDvf3x8hQ-mLotzc1zWBJuWun4I-ntCB32eUq4mI_zsblXw6rkq9J9V8yTnakQFLUeGyeVwhSHz3krcSgS"/>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined text-[11px]">support_agent</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Đặng Quỳnh Trang</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex-shrink-0">12m ago</span>
+</div>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-micro-header text-micro-header uppercase flex items-center gap-1">
+<span class="w-1 h-1 rounded-full bg-primary"></span>
+              Đã chốt đơn #BN-9502
+            </span>
+</div>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 pl-0.5">
+        Cảm ơn bạn nhé, mình vừa thanh toán chuyển khoản qua QR xong rồi. Gửi cho mình hóa đơn điện tử VAT nhé!
+      </p>
+<div class="bg-surface-container-low rounded-lg p-2.5 flex items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed flex-shrink-0">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-micro-header text-micro-header uppercase text-on-surface-variant">Luna (Sales)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Tự động xuất hóa đơn</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-lg bg-surface-container-highest text-primary font-headline-sm text-headline-sm font-semibold">
+          +$320
+        </span>
+</div>
+</div>
+<!-- Ticket 4: Alex Rivera -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-3 relative overflow-hidden opacity-90 transition-all hover:opacity-100">
+<div class="flex items-start justify-between gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-11 h-11 rounded-full object-cover" data-alt="Portrait of Alex Rivera, Latin casual professional wearing linen minimalist shirt with clean urban cafe exterior background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbdjmFvR6KnAQQJSI_Um9_qmYeFqYrqv0qc3Q5T7A6V3BZb9fHdcIItGlrUCv7ePtLec-VqAvjnn9k4g_gcYVmDOC4hipILVUi3GVvpUBh3qT3jQtUk1uTSgNNKtq7MZBelufdnDMeyIMyKs2b8XWCSnyHjVqT95b5weAL1SB5U3bcmc4_27gzZNIewXhoVSNe5Iumx7anO3AjZwgR3fGQi0pRIrn86fjvTSQmuT7WRYNxGPul4USg"/>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[11px]">photo_camera</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Alex Rivera</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex-shrink-0">28m ago</span>
+</div>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant font-micro-header text-micro-header uppercase">
+              Đổi trả hàng
+            </span>
+</div>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 pl-0.5">
+        Size áo hơi rộng, mình muốn đổi sang size M thì gửi về kho nào? Đơn hàng trước mình nhận tại Hà Nội.
+      </p>
+<div class="bg-surface-container-low rounded-lg p-2.5 flex items-center justify-between gap-2">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-primary">done_all</span>
+<span class="font-label-sm text-label-sm">Đã giải quyết tự động (Resolved)</span>
+</div>
+<span class="font-micro-header text-micro-header text-on-surface-variant uppercase">Atlas #R-109</span>
+</div>
+</div>
+</div>
+<div class="pt-2 flex flex-col items-center justify-center text-center space-y-1">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[15px]">lock</span>
+<span class="font-micro-header text-micro-header uppercase tracking-wider">End-to-End Omnichannel Sync</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant/70">
+      Tất cả 4 kênh đang đồng bộ trực tiếp • 0.8s SLA
+    </p>
+</div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Dynamic tab switching state
+    const tabs = document.querySelectorAll('.overflow-x-auto button');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('bg-primary-container', 'text-on-primary');
+          if (!t.classList.contains('bg-tertiary-fixed')) {
+            t.classList.add('bg-surface-container-lowest', 'text-on-surface-variant');
+          }
+        });
+        if (!tab.classList.contains('bg-tertiary-fixed')) {
+          tab.classList.remove('bg-surface-container-lowest', 'text-on-surface-variant');
+          tab.classList.add('bg-primary-container', 'text-on-primary');
+        }
+      });
+    });
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/85 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary"><div class="flex items-center justify-around h-16 px-space-xs"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 transition-colors text-primary" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[24px]">grid_view</span><span class="font-label-sm text-label-sm mt-0.5">Dashboard</span></a><a class="relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 text-on-surface-variant transition-colors" data-path="inbox" href="#"><div class="relative flex items-center justify-center"><span class="material-symbols-outlined text-[24px]">mail</span><span class="absolute -top-1 -right-2 bg-error text-on-error font-micro-header text-micro-header rounded-full px-1 py-0.2 min-w-[14px] text-center leading-tight">3</span></div><span class="font-label-sm text-label-sm mt-0.5">Inbox</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 text-on-surface-variant transition-colors" data-path="analytics" href="#"><span class="material-symbols-outlined text-[24px]">insights</span><span class="font-label-sm text-label-sm mt-0.5">Analytics</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 text-on-surface-variant transition-colors" data-path="customers" href="#"><span class="material-symbols-outlined text-[24px]">group</span><span class="font-label-sm text-label-sm mt-0.5">Customers</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 text-on-surface-variant transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[24px]">tune</span><span class="font-label-sm text-label-sm mt-0.5">Settings</span></a></div><div class="flex justify-center pb-1"><div class="w-32 h-1 bg-on-surface/20 rounded-full"></div></div></nav></body></html>
+
+<!-- Banno CRM Sarah Jenkins Chat Thread -->
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>Chat Detail</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "tertiary-fixed-dim": "#ffb695", "surface-dim": "#d3daea", "primary": "#3525cd", "surface-container-low": "#f0f3ff", "on-primary-fixed": "#0f0069", "tertiary": "#7e3000", "error-container": "#ffdad6", "on-secondary-fixed-variant": "#404758", "secondary-fixed": "#dce2f7", "surface-bright": "#f9f9ff", "tertiary-container": "#a44100", "error": "#ba1a1a", "outline": "#777587", "secondary-container": "#d9dff5", "on-secondary-container": "#5c6274", "inverse-surface": "#2a313d", "tertiary-fixed": "#ffdbcc", "on-error": "#ffffff", "surface-container-highest": "#dce2f3", "on-background": "#151c27", "surface-container-high": "#e2e8f8", "on-primary": "#ffffff", "on-tertiary": "#ffffff", "secondary-fixed-dim": "#c0c6db", "on-error-container": "#93000a", "primary-fixed-dim": "#c3c0ff", "on-tertiary-fixed": "#351000", "on-primary-fixed-variant": "#3323cc", "primary-container": "#4f46e5", "outline-variant": "#c7c4d8", "surface-tint": "#4d44e3", "on-primary-container": "#dad7ff", "on-secondary-fixed": "#141b2b", "surface": "#f9f9ff", "primary-fixed": "#e2dfff", "background": "#f9f9ff", "on-tertiary-container": "#ffd2be", "on-surface": "#151c27", "surface-container-lowest": "#ffffff", "surface-variant": "#dce2f3", "on-secondary": "#ffffff", "on-surface-variant": "#464555", "on-tertiary-fixed-variant": "#7b2f00", "inverse-on-surface": "#ebf1ff", "secondary": "#575e70", "surface-container": "#e7eefe", "inverse-primary": "#c3c0ff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-sm": "0.5rem", "space-lg": "1.25rem", "space-md": "0.75rem", "gutter": "1.25rem", "space-xs": "0.25rem", "space-xl": "2rem", "margin": "2rem", "margin-mobile": "1rem", "gutter-mobile": "0.75rem" }, "fontFamily": { "label-md": [ "Hanken Grotesk" ], "body-lg": [ "Hanken Grotesk" ], "headline-lg": [ "Manrope" ], "label-sm": [ "Hanken Grotesk" ], "body-sm": [ "Hanken Grotesk" ], "display-lg": [ "Manrope" ], "headline-md": [ "Manrope" ], "micro-header": [ "Hanken Grotesk" ], "headline-sm": [ "Manrope" ], "body-md": [ "Hanken Grotesk" ] }, "fontSize": { "label-md": [ "0.875rem", { "lineHeight": "1.25rem", "fontWeight": "500" } ], "body-lg": [ "1rem", { "lineHeight": "1.5rem", "fontWeight": "400" } ], "headline-lg": [ "1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "label-sm": [ "0.75rem", { "lineHeight": "1rem", "fontWeight": "500" } ], "body-sm": [ "0.8125rem", { "lineHeight": "1.125rem", "fontWeight": "400" } ], "display-lg": [ "2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "700" } ], "headline-md": [ "1.375rem", { "lineHeight": "1.875rem", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "micro-header": [ "0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.08em", "fontWeight": "600" } ], "headline-sm": [ "1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "body-md": [ "0.875rem", { "lineHeight": "1.25rem", "fontWeight": "400" } ] } } } };</script><style>@layer base{html,body{width:100%;margin:0;padding:0;}body{overscroll-behavior-y:none;-webkit-font-smoothing:antialiased;}.pb-safe{padding-bottom:calc(env(safe-area-inset-bottom,0px));}.pt-safe{padding-top:calc(env(safe-area-inset-top,0px));}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background font-body-md text-body-md text-on-surface min-h-screen flex flex-col relative"><header class="fixed top-0 w-full z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter-mobile flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs min-w-0"><button aria-label="Go Back" class="w-11 h-11 -ml-1 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[22px]">arrow_back_ios_new</span></button><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-on-surface truncate">Sarah Jenkins</span><span class="px-1.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-micro-header text-micro-header uppercase tracking-wider">VIP Tier 1</span></div><div class="flex items-center gap-space-xs mt-0.5"><span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-micro-header text-micro-header"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>Instagram DM</span><span class="font-micro-header text-micro-header text-on-surface-variant tracking-wider">Chat Detail</span></div></div></div><div class="flex items-center gap-1 shrink-0"><button aria-label="Call Customer" class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[20px]">call</span></button><button aria-label="CRM Context Menu" class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[20px]">more_vert</span></button><div class="w-8 h-8 ml-0.5 rounded-full bg-primary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-36 bg-background"><div class="flex flex-col w-full px-gutter-mobile gap-space-md pb-6">
+<!-- Pinned Top Context Banner: Human-in-the-loop / VIP Alert -->
+<section class="w-full bg-tertiary-fixed/40 rounded-xl p-space-md shadow-sm transition-all duration-300 relative overflow-hidden" id="approval-banner">
+<div class="flex items-start justify-between gap-space-xs mb-1.5">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-tertiary-container text-[18px] shrink-0" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+<span class="font-micro-header text-micro-header text-tertiary uppercase tracking-wider truncate">
+          Yêu cầu can thiệp • VIP Tier 1 • Đơn #BN-9481 ($1,240)
+        </span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest text-tertiary-container font-micro-header text-micro-header shrink-0 shadow-sm font-semibold">
+        CẦN DUYỆT
+      </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-snug mb-3">
+      Khách phản ánh hộp bị móp do đơn vị vận chuyển. AI Luna đã đề xuất voucher <span class="font-semibold text-primary">15% ($186)</span> + đổi bao bì hỏa tốc trước 15:00.
+    </p>
+<div class="flex items-center gap-2 flex-wrap">
+<button class="flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-medium shadow-sm active:scale-95 hover:bg-primary-container transition-all" id="btn-approve" onclick="approveProposal()">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+        Duyệt voucher &amp; gửi
+      </button>
+<button class="flex items-center gap-1 h-8 px-3 rounded-full bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm shadow-sm active:scale-95 transition-all" onclick="editProposal()">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+        Sửa đề xuất
+      </button>
+<button class="h-8 px-2.5 rounded-full text-error hover:bg-error-container/30 font-label-sm text-label-sm transition-colors ml-auto" onclick="dismissBanner()">
+        Từ chối
+      </button>
+</div>
+</section>
+<!-- Timeline / Message Thread -->
+<div class="flex flex-col gap-space-md w-full">
+<!-- Timestamp Divider -->
+<div class="flex items-center justify-center my-1">
+<span class="px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-micro-header text-micro-header tracking-wider uppercase">
+        Hôm nay, 10:42 • Kênh Instagram Direct
+      </span>
+</div>
+<!-- Customer Message 1 (Sarah Jenkins) -->
+<div class="flex items-start gap-2.5 max-w-[92%] self-start">
+<div class="relative shrink-0 mt-0.5">
+<img class="w-8 h-8 rounded-full object-cover shadow-sm" data-alt="High-end editorial portrait of Sarah Jenkins, stylish professional woman in her early thirties, soft natural light, warm neutral studio backdrop, minimalist aesthetic, warm color tones, high resolution" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBooMi2xAOBkgcZJDgPKbzJnM9N0JquSTeLca4LIpjCtkFnkNBmkg-qdWAqBIuAdgAThjjpAILNrpxxcI_kHwNiK4YQ4ZsJeWbgF3fvlehBoJZ7X_IXLs4nKEC7RASRAQzeFfUlTR5p2BiPMYE8ac6RidJ0hIPAYcUZpWkAtlFti5zuVZXhc0mafX2I9BXh564Y1dICxHmBcTTx-GTq2wUBE7r-FUZnQv9xAei6NfHKn4TLH6TYFsMS"/>
+<div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-tertiary-fixed-dim ring-2 ring-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed text-[8px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-baseline gap-1.5">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface truncate">Sarah Jenkins</span>
+<span class="font-micro-header text-micro-header text-on-surface-variant">10:42</span>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl rounded-tl-sm p-3.5 shadow-sm text-on-surface font-body-md text-body-md leading-relaxed">
+          Chào shop, kiện hàng <strong class="font-semibold text-on-surface">#BN-9481</strong> giá $1,240 của mình vừa nhận sáng nay bị móp méo nặng phần góc hộp quà tặng. Mình muốn yêu cầu hoàn tiền cho đơn này vì không kịp tặng đối tác.
+        </div>
+<!-- Customer attached photo preview -->
+<div class="flex items-center gap-2 mt-1">
+<div class="relative w-20 h-20 rounded-xl overflow-hidden shadow-sm shrink-0">
+<img class="w-full h-full object-cover" data-alt="Close up photograph of a damaged luxury minimalist gift box corner, premium textured matte packaging slightly crushed during transit, clean studio photography style with soft off-white lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuNwySrI3KcMomOml8LvodnXxe2LtFSG5TmGejkn4V80ZC4w27QfJY1gx06-LHA_MSgnO-ItejycK32QzFlECKhfS0V5Tob8sce9HOxcMRpG-wX7sUbbjuwL-Bp3RqkkeOfzAalDHHbgs88viwJT8o0iVgaQs-DUwYcpGRoR64yKj0zbxGG5YtODfkpNI2_rPjvNdvg2_Q9vipMhcZx70Gu9KfXuAjXwC7CEENeM2r1PTfdj_2HnHs"/>
+<div class="absolute bottom-1 right-1 bg-inverse-surface/80 text-inverse-on-surface text-[10px] px-1 rounded font-mono">JPG</div>
+</div>
+<div class="flex flex-col text-on-surface-variant">
+<span class="font-label-sm text-label-sm text-on-surface font-medium">box_damage_01.jpg</span>
+<span class="font-micro-header text-micro-header">2.4 MB • Đã quét an toàn</span>
+</div>
+</div>
+</div>
+</div>
+<!-- AI System Event Card (Luna Concierge Telemetry) -->
+<div class="w-full max-w-sm mx-auto my-1">
+<div class="bg-surface-container-low rounded-xl p-3 shadow-sm flex items-start gap-2.5">
+<div class="w-7 h-7 rounded-lg bg-primary-fixed flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-primary text-[18px]">psychology</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between gap-1 mb-1">
+<span class="font-micro-header text-micro-header text-primary font-bold uppercase tracking-wider">AI Luna Insights</span>
+<span class="inline-flex items-center gap-1 font-micro-header text-micro-header text-on-secondary-container bg-secondary-container px-1.5 py-0.5 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>CSAT 89%
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+            Khách VIP LTV <span class="font-semibold text-on-surface">$8,450</span> (5 đơn hoàn tất). Đề xuất giữ chân bằng voucher bù đắp <strong class="font-semibold text-primary">15%</strong> + đổi hàng hỏa tốc trong ngày thay vì hủy đơn.
+          </p>
+</div>
+</div>
+</div>
+<!-- AI Bot Message (Auto draft dispatched) -->
+<div class="flex items-start gap-2.5 max-w-[92%] self-end flex-row-reverse">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-sm shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">smart_toy</span>
+</div>
+<div class="flex flex-col items-end gap-1 min-w-0">
+<div class="flex items-baseline gap-1.5 flex-row-reverse">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Luna Concierge (AI)</span>
+<span class="font-micro-header text-micro-header text-on-surface-variant">10:43</span>
+</div>
+<div class="bg-primary text-on-primary rounded-2xl rounded-tr-sm p-3.5 shadow-sm font-body-md text-body-md leading-relaxed text-left">
+          Dạ Luna chào chị Sarah! Em thành thật xin lỗi vì sự cố vận chuyển từ phía đơn vị giao hàng. Để hỗ trợ tốt nhất, Banno xin gửi tặng chị <strong class="text-primary-fixed underline decoration-primary-fixed-dim">Voucher 15% ($186)</strong> cho đơn tiếp theo và xin phép điều phối gửi lại ngay 1 set bao bì quà tặng mới hỏa tốc trong 2h tới được không ạ?
+        </div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[13px] text-primary">bolt</span>
+<span class="font-micro-header text-micro-header text-primary font-medium">Tự động gửi bởi AI Luna</span>
+<span class="material-symbols-outlined text-[13px] text-primary ml-1" style="font-variation-settings: 'FILL' 1;">done_all</span>
+</div>
+</div>
+</div>
+<!-- Customer Response (Sarah Jenkins) -->
+<div class="flex items-start gap-2.5 max-w-[92%] self-start">
+<div class="relative shrink-0 mt-0.5">
+<img class="w-8 h-8 rounded-full object-cover shadow-sm" data-alt="Editorial portrait of Sarah Jenkins, modern businesswoman with refined expression, subtle ambient illumination, Scandinavian aesthetic, high quality" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA9napfDcBlvba_YGPgyduJalaUwoIN1QW-qtZV0SoF5v2ts6sVXpcb89ax8c9RaUfu05oLiH_ldLRVAu59FPVMoQuBKn7fppthaJ9Bs72n0WbTqT3HgZbgo6Tr1utnEfwicmOtxjbwDcrATZljfs2G5a6cr84xST8FClY3lBYjdWO4f3YwItVIiXh3hJ6ewl7mqZPOSix8iZm7TxB-yugqs6XulP1M1Mdz6hvwA4VjfkalRGVoo1S"/>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-baseline gap-1.5">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Sarah Jenkins</span>
+<span class="font-micro-header text-micro-header text-on-surface-variant">10:45</span>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl rounded-tl-sm p-3.5 shadow-sm text-on-surface font-body-md text-body-md leading-relaxed">
+          Nếu gửi lại set mới kịp trước 15h chiều nay thì mình đồng ý giải pháp voucher 15%. Nhờ shop duyệt và xác nhận sớm giúp mình nhé!
+        </div>
+<div class="flex items-center gap-1 text-tertiary-container mt-0.5">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+<span class="font-micro-header text-micro-header font-semibold uppercase tracking-wider">Chờ nhân viên xác nhận</span>
+</div>
+</div>
+</div>
+<!-- Real-time Agent Delivery Status Card -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<span class="font-micro-header text-micro-header uppercase tracking-wider text-on-surface-variant font-semibold">Tuyến giao hỏa tốc đề xuất</span>
+<span class="font-micro-header text-micro-header text-primary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">local_shipping</span> Ahamove Express
+        </span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface">
+<div class="flex flex-col">
+<span class="text-on-surface-variant font-micro-header text-micro-header">Dự kiến giao</span>
+<span class="font-semibold text-on-surface">14:15 - 14:30 Hôm nay</span>
+</div>
+<div class="text-right flex flex-col">
+<span class="text-on-surface-variant font-micro-header text-micro-header">Chi phí đổi</span>
+<span class="font-semibold text-primary">$0 (Banno Cover)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Copilot Assistant Suggestion Box -->
+<section class="w-full bg-gradient-to-br from-surface-container-lowest via-surface-container-low to-surface-container-lowest rounded-xl p-space-md shadow-sm transition-all duration-300 relative" id="copilot-suggestion">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">auto_awesome</span>
+<span class="font-micro-header text-micro-header text-primary font-bold tracking-wider uppercase">
+          AI Copilot gợi ý phản hồi (Luna)
+        </span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-micro-header text-micro-header">Độ khớp 98%</span>
+</div>
+<div class="bg-surface-container-lowest/90 rounded-lg p-3 text-on-surface font-body-sm text-body-sm leading-relaxed mb-3 shadow-[0_1px_3px_rgba(0,0,0,0.02)]" id="suggestion-text">
+      Dạ Banno đã xác nhận đơn giao bù hỏa tốc đang trên đường tới chị trước 14h30, mã voucher <strong class="text-primary font-mono">VIP15-SARAH</strong> đã được áp dụng vào ví tài khoản của chị ạ!
+    </div>
+<div class="flex items-center justify-between gap-2">
+<button class="flex items-center gap-1.5 h-8 px-4 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-medium shadow-sm hover:bg-primary-container active:scale-95 transition-all" onclick="applyCopilotDraft()">
+<span class="material-symbols-outlined text-[16px]">done_all</span>
+        Áp dụng câu này &amp; Gửi
+      </button>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" onclick="regenerateCopilot()" title="Gợi ý câu khác">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+</button>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" onclick="copyToInput()" title="Sao chép vào ô gõ">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Interactive Action Confirmation Toast (Hidden by default) -->
+<div class="hidden fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-inverse-surface text-inverse-on-surface px-4 py-2.5 rounded-full shadow-lg flex items-center gap-2 transition-opacity duration-300" id="action-toast">
+<span class="material-symbols-outlined text-[18px] text-tertiary-fixed">verified</span>
+<span class="font-label-sm text-label-sm" id="toast-message">Đã áp dụng và chuyển giao nhân viên thành công!</span>
+</div>
+</div>
+<script>
+  function showToast(message) {
+    const toast = document.getElementById('action-toast');
+    const toastMsg = document.getElementById('toast-message');
+    if (toast && toastMsg) {
+      toastMsg.textContent = message;
+      toast.classList.remove('hidden');
+      toast.style.opacity = '1';
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.classList.add('hidden'), 300);
+      }, 2600);
+    }
+  }
+
+  function approveProposal() {
+    const banner = document.getElementById('approval-banner');
+    if (banner) {
+      banner.classList.add('opacity-40', 'pointer-events-none');
+    }
+    showToast('Đã duyệt voucher 15% ($186) & kích hoạt đơn hỏa tốc!');
+  }
+
+  function editProposal() {
+    showToast('Mở bảng tinh chỉnh mức ưu đãi voucher...');
+  }
+
+  function dismissBanner() {
+    const banner = document.getElementById('approval-banner');
+    if (banner) {
+      banner.style.transition = 'all 0.3s ease';
+      banner.style.maxHeight = '0px';
+      banner.style.padding = '0px';
+      banner.style.opacity = '0';
+      setTimeout(() => banner.remove(), 300);
+    }
+  }
+
+  function applyCopilotDraft() {
+    showToast('Đã gửi xác nhận và mã VIP15-SARAH tới khách hàng!');
+    const copilot = document.getElementById('copilot-suggestion');
+    if (copilot) {
+      copilot.classList.add('opacity-50', 'pointer-events-none');
+    }
+  }
+
+  function copyToInput() {
+    showToast('Đã sao chép nội dung gợi ý vào bộ nhớ tạm!');
+  }
+
+  function regenerateCopilot() {
+    const textEl = document.getElementById('suggestion-text');
+    if (textEl) {
+      textEl.innerHTML = 'Dạ em vừa điều phối chuyến xe hỏa tốc riêng giao đến chị Sarah trước 14h20 kèm set quà nguyên bản ạ. Em xin phép gửi tặng chị thêm voucher VIP 15% cho lần ghé thăm tiếp theo nha chị!';
+      showToast('Đã cập nhật câu trả lời thay thế từ Luna!');
+    }
+  }
+</script></main><footer class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.04)]"><div class="flex flex-col px-gutter-mobile py-space-xs gap-space-xs"><div class="flex items-center gap-space-xs overflow-x-auto no-scrollbar"><button class="flex items-center gap-1 h-7 px-2.5 rounded-full bg-primary-fixed text-on-primary-fixed font-micro-header text-micro-header tracking-wide whitespace-nowrap hover:bg-primary-fixed-dim transition-colors shadow-sm"><span class="material-symbols-outlined text-[14px]">auto_awesome</span>AI Copilot</button><button class="h-7 px-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-micro-header text-micro-header tracking-wide whitespace-nowrap hover:text-on-surface hover:bg-surface-container-highest transition-colors">⚡ Quick Replies</button><button class="h-7 px-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-micro-header text-micro-header tracking-wide whitespace-nowrap hover:text-on-surface hover:bg-surface-container-highest transition-colors">Order #4920</button><button class="h-7 px-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-micro-header text-micro-header tracking-wide whitespace-nowrap hover:text-on-surface hover:bg-surface-container-highest transition-colors">Send Tracking</button></div><div class="flex items-center gap-space-xs bg-surface-container-lowest rounded-xl p-1.5 shadow-[0_1px_4px_rgba(0,0,0,0.03)]"><button aria-label="Attach File or Product" class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">attach_file</span></button><input class="flex-1 h-9 bg-transparent px-space-xs text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none" placeholder="Reply to Sarah Jenkins..." type="text"/><button aria-label="Voice Note" class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">mic</span></button><button aria-label="Send or AI Takeover" class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-container text-on-primary hover:bg-primary transition-colors shadow-sm"><span class="material-symbols-outlined text-[18px]">send</span></button></div></div></footer></body></html>

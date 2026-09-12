@@ -1,0 +1,882 @@
+<!-- Banno CRM — owner console. Responsive: sidebar + multi-pane on desktop,
+     the original mobile layout (bottom nav, stacked cards) on phones. -->
+<!DOCTYPE html>
+<html class="h-full" lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Banno CRM</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script id="tailwind-config">
+tailwind.config = { darkMode: "class", theme: { extend: {
+  colors: { "on-tertiary-fixed": "#351000", "secondary-fixed": "#dce2f7", "outline": "#777587", "on-surface": "#151c27", "on-secondary-fixed": "#141b2b", "surface-container-highest": "#dce2f3", "primary-fixed-dim": "#c3c0ff", "on-primary-fixed-variant": "#3323cc", "inverse-on-surface": "#ebf1ff", "on-error-container": "#93000a", "background": "#f9f9ff", "on-primary-container": "#dad7ff", "tertiary": "#7e3000", "surface-bright": "#f9f9ff", "on-tertiary": "#ffffff", "surface-container-low": "#f0f3ff", "primary-fixed": "#e2dfff", "secondary-fixed-dim": "#c0c6db", "error": "#ba1a1a", "surface-container-lowest": "#ffffff", "on-secondary-fixed-variant": "#404758", "secondary-container": "#d9dff5", "surface": "#f9f9ff", "surface-tint": "#4d44e3", "inverse-primary": "#c3c0ff", "outline-variant": "#c7c4d8", "on-primary": "#ffffff", "tertiary-container": "#a44100", "surface-container": "#e7eefe", "tertiary-fixed-dim": "#ffb695", "primary-container": "#4f46e5", "error-container": "#ffdad6", "on-tertiary-fixed-variant": "#7b2f00", "on-primary-fixed": "#0f0069", "on-secondary-container": "#5c6274", "surface-variant": "#dce2f3", "on-background": "#151c27", "on-error": "#ffffff", "on-tertiary-container": "#ffd2be", "tertiary-fixed": "#ffdbcc", "inverse-surface": "#2a313d", "surface-dim": "#d3daea", "secondary": "#575e70", "primary": "#3525cd", "on-surface-variant": "#464555", "surface-container-high": "#e2e8f8", "on-secondary": "#ffffff" },
+  borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+  spacing: { "space-xl": "2rem", "gutter": "1.25rem", "margin": "2rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-lg": "1.25rem", "gutter-mobile": "0.75rem", "space-md": "0.75rem", "margin-mobile": "1rem" },
+  fontFamily: { "micro-header": ["Hanken Grotesk"], "display-lg": ["Manrope"], "headline-sm": ["Manrope"], "body-lg": ["Hanken Grotesk"], "headline-md": ["Manrope"], "headline-lg": ["Manrope"], "label-sm": ["Hanken Grotesk"], "label-md": ["Hanken Grotesk"], "body-sm": ["Hanken Grotesk"], "body-md": ["Hanken Grotesk"] },
+  fontSize: { "micro-header": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.08em", "fontWeight": "600" }], "display-lg": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "700" }], "headline-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-lg": ["1rem", { "lineHeight": "1.5rem", "fontWeight": "400" }], "headline-md": ["1.375rem", { "lineHeight": "1.875rem", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-lg": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.02em", "fontWeight": "600" }], "label-sm": ["0.75rem", { "lineHeight": "1rem", "fontWeight": "500" }], "label-md": ["0.875rem", { "lineHeight": "1.25rem", "fontWeight": "500" }], "body-sm": ["0.8125rem", { "lineHeight": "1.125rem", "fontWeight": "400" }], "body-md": ["0.875rem", { "lineHeight": "1.25rem", "fontWeight": "400" }] }
+} } };
+</script>
+<style>
+  @layer base {
+    html, body { width: 100%; margin: 0; padding: 0; background-color: #f9f9ff; -webkit-tap-highlight-color: transparent; }
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-thumb { background: #c7c4d8; border-radius: 8px; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+</style>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased">
+
+<div class="lg:flex lg:h-screen lg:overflow-hidden">
+
+  <!-- Desktop sidebar -->
+  <aside class="hidden lg:flex lg:flex-col w-60 flex-shrink-0 border-r border-outline-variant/60 bg-surface-container-low">
+    <div class="h-16 flex items-center gap-2 px-5 border-b border-outline-variant/60">
+      <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+        <span class="material-symbols-outlined text-on-primary text-[18px]">storefront</span>
+      </div>
+      <span class="font-headline-md text-headline-md tracking-tight">Banno<span class="text-primary">CRM</span></span>
+    </div>
+    <nav class="flex-1 p-3 space-y-1" id="side-nav"></nav>
+    <div class="p-3 border-t border-outline-variant/60">
+      <div class="rounded-xl bg-surface-container-lowest p-3 shadow-sm space-y-1.5" id="side-status"></div>
+    </div>
+  </aside>
+
+  <div class="flex-1 flex flex-col lg:h-screen lg:overflow-hidden">
+
+    <!-- Mobile-only phone status bar, kept from the original design -->
+    <div class="lg:hidden flex items-center justify-between px-gutter pt-2 text-on-surface h-6">
+      <span class="font-headline-sm text-headline-sm text-[14px]" id="clock">--:--</span>
+      <div class="flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-[17px]">signal_cellular_4_bar</span>
+        <span class="material-symbols-outlined text-[17px]">wifi</span>
+        <span class="material-symbols-outlined text-[19px]">battery_charging_full</span>
+      </div>
+    </div>
+
+    <header class="flex-shrink-0 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/50 px-gutter lg:px-6">
+      <div class="h-16 lg:h-16 flex items-center justify-between gap-4">
+        <div class="flex flex-col min-w-0">
+          <div class="flex items-center gap-1.5">
+            <span class="lg:hidden font-headline-md text-headline-md tracking-tight">Banno<span class="text-primary">CRM</span></span>
+            <span class="hidden lg:inline font-headline-md text-headline-md tracking-tight" id="view-title">Dashboard</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-label-sm text-label-sm text-on-surface-variant" id="today">—</span>
+            <span class="lg:hidden font-micro-header text-micro-header text-primary uppercase" id="view-label">Dashboard</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="hidden lg:flex items-center gap-1.5 px-3 h-8 rounded-full bg-surface-container-lowest shadow-sm font-label-sm text-label-sm" id="model-chip"></span>
+          <button class="relative w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container transition-colors" onclick="go('inbox')">
+            <span class="material-symbols-outlined text-[22px]">notifications</span>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error hidden" id="header-dot"></span>
+          </button>
+          <div class="relative flex items-center justify-center">
+            <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+            </div>
+            <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full ring-2 ring-surface bg-outline" id="llm-dot"></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 lg:overflow-y-auto px-gutter lg:px-6 py-5 pb-28 lg:pb-6 bg-surface" id="view"></main>
+  </div>
+
+  <!-- Mobile bottom nav -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-50 pb-safe bg-surface/95 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.06)]" id="bottom-nav">
+    <div class="flex items-center justify-around h-16 px-space-xs" id="nav-items"></div>
+  </nav>
+
+  <div class="hidden fixed top-6 left-1/2 -translate-x-1/2 z-[60]" id="toast-wrap">
+    <div class="bg-inverse-surface text-inverse-on-surface px-4 py-2.5 rounded-full shadow-lg flex items-center gap-2">
+      <span class="material-symbols-outlined text-[18px]" id="toast-icon">check_circle</span>
+      <span class="font-label-sm text-label-sm whitespace-nowrap" id="toast-text"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = "";
+const CHANNEL = {
+  website: { icon: "language", label: "Website" },
+  telegram: { icon: "send", label: "Telegram" },
+  messenger: { icon: "chat", label: "Messenger" },
+  email: { icon: "mail", label: "Email" },
+};
+const PRIORITY_STYLE = {
+  urgent: "bg-error-container text-on-error-container",
+  high: "bg-tertiary-fixed text-on-tertiary-fixed",
+  normal: "bg-secondary-container text-on-secondary-container",
+  low: "bg-surface-container text-on-surface-variant",
+};
+const PRIORITY_LABEL = { urgent: "Khẩn cấp", high: "Cao", normal: "Bình thường", low: "Thấp" };
+const INTENT_LABEL = {
+  product_inquiry: "Hỏi sản phẩm", order_status: "Hỏi đơn hàng", complaint: "Khiếu nại",
+  refund_request: "Yêu cầu hoàn tiền", general_faq: "Hỏi chính sách", other: "Khác",
+  proactive_followup: "Chủ động theo dõi",
+};
+const STATUS_LABEL = {
+  auto_sent: { text: "Tự động gửi bởi AI", icon: "bolt", cls: "text-primary" },
+  approved_sent: { text: "Chủ shop đã duyệt", icon: "verified", cls: "text-primary" },
+  edited_sent: { text: "Chủ shop sửa rồi gửi", icon: "edit", cls: "text-primary" },
+  pending_review: { text: "Đang chờ bạn duyệt", icon: "hourglass_top", cls: "text-tertiary-container" },
+  rejected: { text: "Đã từ chối", icon: "block", cls: "text-error" },
+};
+const NAV = [
+  { key: "dashboard", icon: "grid_view", label: "Dashboard" },
+  { key: "inbox", icon: "mail", label: "Inbox" },
+  { key: "analytics", icon: "insights", label: "Analytics" },
+  { key: "settings", icon: "tune", label: "Cài đặt" },
+];
+
+const state = { view: "dashboard", conversations: [], pending: [], stats: null, health: null,
+                activeConv: null, thread: null, filter: "all", search: "", editing: null };
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const isDesktop = () => window.matchMedia("(min-width: 1024px)").matches;
+
+async function jget(p) { const r = await fetch(API + p); if (!r.ok) throw new Error(p); return r.json(); }
+async function jpost(p, b) {
+  const r = await fetch(API + p, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(b || {}) });
+  if (!r.ok) throw new Error(p);
+  return r.json();
+}
+
+function toast(text, icon = "check_circle") {
+  $("toast-text").textContent = text;
+  $("toast-icon").textContent = icon;
+  $("toast-wrap").classList.remove("hidden");
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => $("toast-wrap").classList.add("hidden"), 2600);
+}
+
+function initials(name) {
+  const parts = String(name || "?").trim().split(/\s+/);
+  return ((parts[0]?.[0] || "") + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase();
+}
+
+function timeAgo(iso) {
+  const diff = (Date.now() - new Date(iso).getTime()) / 1000;
+  if (diff < 60) return "Vừa xong";
+  if (diff < 3600) return `${Math.floor(diff / 60)} phút`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)} giờ`;
+  return new Date(iso).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" });
+}
+
+const hhmm = (iso) => new Date(iso).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+
+function clockTick() {
+  const now = new Date();
+  if ($("clock")) $("clock").textContent = now.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+  $("today").textContent = now.toLocaleDateString("vi-VN", { weekday: "long", day: "numeric", month: "numeric", year: "numeric" });
+}
+
+/* ---------- shared fragments ---------- */
+
+function avatar(conv, sizeCls = "w-11 h-11") {
+  const ch = CHANNEL[conv.channel] || CHANNEL.website;
+  const name = conv.customer_name || conv.display_name;
+  return `
+    <div class="relative flex-shrink-0">
+      <div class="${sizeCls} rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-headline-sm text-headline-sm text-[13px]">${esc(initials(name))}</div>
+      <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+        <span class="material-symbols-outlined text-[11px]">${ch.icon}</span>
+      </div>
+    </div>`;
+}
+
+function priorityChip(priority, intent) {
+  if (!priority) return "";
+  const cls = PRIORITY_STYLE[priority] || PRIORITY_STYLE.low;
+  return `<span class="px-2 py-0.5 rounded-full ${cls} font-micro-header text-micro-header uppercase">${esc(INTENT_LABEL[intent] || intent || "")} · ${esc(PRIORITY_LABEL[priority] || priority)}</span>`;
+}
+
+function sectionHeader(title, rightHtml = "", dot = "bg-primary") {
+  return `
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-1.5">
+        <span class="font-micro-header text-micro-header text-on-surface-variant uppercase tracking-wider">${title}</span>
+        <span class="w-1.5 h-1.5 rounded-full ${dot} inline-block"></span>
+      </div>
+      ${rightHtml}
+    </div>`;
+}
+
+/* ---------- dashboard ---------- */
+
+function agentCard(a, live) {
+  return `
+    <div class="flex-shrink-0 w-56 lg:w-auto bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col justify-between gap-3">
+      <div class="flex items-start justify-between gap-2">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="relative w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+            <span class="material-symbols-outlined text-[20px]">${a.icon}</span>
+            <span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full ${live ? "bg-emerald-500" : "bg-outline"} ring-2 ring-surface-container-lowest"></span>
+          </div>
+          <div class="min-w-0">
+            <p class="font-headline-sm text-headline-sm text-on-surface leading-tight text-sm truncate">${esc(a.name)}</p>
+            <p class="font-label-sm text-label-sm text-on-surface-variant text-[11px] truncate">${esc(a.role)}</p>
+          </div>
+        </div>
+        <span class="font-micro-header text-micro-header px-1.5 py-0.5 rounded bg-surface-container-low text-on-surface-variant whitespace-nowrap flex-shrink-0">${esc(a.badge)}</span>
+      </div>
+      <div class="bg-surface-container-low rounded-lg px-2.5 py-2 flex items-center justify-between">
+        <span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">${esc(a.metric_label)}</span>
+        <span class="font-headline-sm text-headline-sm text-on-surface text-xs">${esc(a.metric_value)}</span>
+      </div>
+    </div>`;
+}
+
+function pendingCard(p) {
+  const conv = state.conversations.find((c) => c.id === p.conversation_id) || {};
+  const ch = CHANNEL[p.conv_channel] || CHANNEL.website;
+  const editing = state.editing === p.id;
+  const name = conv.customer_name || p.conv_display_name || p.conv_external_id;
+  return `
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+      <div class="h-1 w-full bg-tertiary-fixed-dim"></div>
+      <div class="p-4 space-y-3">
+        <div class="flex items-start justify-between gap-2">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="material-symbols-outlined text-[16px] text-on-surface-variant">${ch.icon}</span>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface truncate">${esc(name)}</h3>
+            ${conv.vip ? '<span class="px-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-micro-header text-micro-header uppercase flex-shrink-0">VIP</span>' : ""}
+          </div>
+          <span class="font-label-sm text-label-sm text-on-surface-variant flex-shrink-0">${timeAgo(p.created_at)}</span>
+        </div>
+
+        <div class="bg-surface-container-low rounded-lg p-2.5">
+          <span class="font-micro-header text-micro-header uppercase text-on-surface-variant">Khách nhắn</span>
+          <p class="font-body-sm text-body-sm text-on-surface mt-0.5">${esc(p.customer_message || conv.last_body || "")}</p>
+        </div>
+
+        <div>
+          <div class="flex items-center gap-1.5 mb-1">
+            <span class="material-symbols-outlined text-primary text-[15px]">auto_awesome</span>
+            <span class="font-micro-header text-micro-header text-primary uppercase tracking-wider">Bản nháp của Banno</span>
+          </div>
+          ${editing
+            ? `<textarea id="edit-${p.id}" class="w-full min-h-[104px] rounded-lg border border-outline-variant bg-surface-container-lowest p-2.5 font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-primary">${esc(p.body)}</textarea>`
+            : `<p class="font-body-sm text-body-sm text-on-surface bg-surface-container-lowest border border-outline-variant rounded-lg p-2.5">${esc(p.body)}</p>`}
+        </div>
+
+        <div class="flex items-center gap-1.5 flex-wrap">
+          ${priorityChip(conv.last_priority, conv.last_intent)}
+          <span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-micro-header text-micro-header">${esc(p.reasoning || "cần duyệt")}</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button class="flex-1 h-9 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm shadow-sm flex items-center justify-center gap-1 hover:bg-primary-container active:scale-95 transition-all" onclick="approve(${p.id})">
+            <span class="material-symbols-outlined text-[16px]">${editing ? "send" : "check_circle"}</span>${editing ? "Gửi bản đã sửa" : "Duyệt & gửi"}
+          </button>
+          <button class="h-9 px-3 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high active:scale-95 transition-all" onclick="toggleEdit(${p.id})" title="Sửa nội dung">
+            <span class="material-symbols-outlined text-[16px] align-middle">${editing ? "close" : "edit"}</span>
+          </button>
+          <button class="h-9 px-3 rounded-lg bg-error-container text-on-error-container font-label-sm text-label-sm hover:brightness-95 active:scale-95 transition-all" onclick="reject(${p.id})" title="Từ chối">
+            <span class="material-symbols-outlined text-[16px] align-middle">block</span>
+          </button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function metricTile(label, value, sub, icon, accent = "text-on-surface") {
+  return `
+    <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col gap-1">
+      <div class="flex items-center justify-between">
+        <span class="font-micro-header text-micro-header uppercase text-on-surface-variant tracking-wider">${label}</span>
+        <span class="material-symbols-outlined text-[16px] text-on-surface-variant">${icon}</span>
+      </div>
+      <span class="font-headline-lg text-headline-lg ${accent}">${value}</span>
+      <span class="font-label-sm text-label-sm text-on-surface-variant">${sub}</span>
+    </div>`;
+}
+
+function renderDashboard() {
+  const s = state.stats, h = state.health;
+  if (!s) return '<p class="font-body-sm text-body-sm text-on-surface-variant">Đang tải…</p>';
+  const live = !!(h && h.llm_live);
+  const t = s.totals;
+
+  const left = `
+    <section class="flex flex-col w-full space-y-2.5">
+      ${sectionHeader("Đội ngũ Agent", `<span class="font-label-sm text-label-sm ${live ? "text-primary" : "text-error"}">${live ? `${esc(h.llm.model)} · online` : "offline"}</span>`)}
+      <div class="flex overflow-x-auto gap-3 -mx-gutter px-gutter lg:mx-0 lg:px-0 pb-1 no-scrollbar snap-x lg:grid lg:grid-cols-2 2xl:grid-cols-3 lg:overflow-visible">
+        ${s.agents.map((a) => agentCard(a, live)).join("")}
+      </div>
+    </section>
+
+    <section class="flex flex-col w-full space-y-3">
+      ${sectionHeader("Hiệu suất hôm nay")}
+      <div class="grid grid-cols-2 xl:grid-cols-4 gap-3">
+        ${metricTile("Hội thoại", t.conversations, `${t.inbound} tin từ khách`, "forum")}
+        ${metricTile("Tự động", `${s.auto_rate}%`, `${t.auto_sent} tin AI tự gửi`, "bolt", "text-primary")}
+        ${metricTile("Chờ duyệt", t.pending, `${t.reviewed_sent} tin đã duyệt`, "hourglass_top", t.pending ? "text-tertiary-container" : "text-on-surface")}
+        ${metricTile("Phản hồi TB", s.avg_response_seconds ? `${s.avg_response_seconds}s` : "—", "từ lúc khách nhắn", "timer")}
+      </div>
+    </section>
+
+    <section class="flex flex-col w-full space-y-2.5">
+      ${sectionHeader("Sales Agent — chủ động")}
+      <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col sm:flex-row sm:items-center gap-3">
+        <p class="font-body-sm text-body-sm text-on-surface-variant flex-1">Quét các đơn chưa xử lý và soạn tin nhắn chăm sóc chủ động. Mọi tin chủ động đều phải qua bạn duyệt.</p>
+        <button class="h-9 px-4 rounded-lg bg-primary-container text-on-primary font-label-sm text-label-sm shadow-sm hover:bg-primary active:scale-95 transition-all flex items-center justify-center gap-1.5 flex-shrink-0" onclick="proactiveScan()">
+          <span class="material-symbols-outlined text-[16px]">radar</span> Quét đơn chưa xử lý
+        </button>
+      </div>
+    </section>`;
+
+  const right = `
+    <section class="flex flex-col w-full space-y-2.5">
+      ${sectionHeader("Cần bạn duyệt", state.pending.length
+          ? '<span class="font-micro-header text-micro-header text-error uppercase font-bold">Ưu tiên 1</span>'
+          : '<span class="font-label-sm text-label-sm text-on-surface-variant">Trống</span>',
+        state.pending.length ? "bg-error animate-pulse" : "bg-outline")}
+      <div class="space-y-3">
+        ${state.pending.length
+          ? state.pending.map(pendingCard).join("")
+          : `<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex items-center gap-3">
+               <span class="material-symbols-outlined text-primary">task_alt</span>
+               <p class="font-body-sm text-body-sm text-on-surface-variant">Không có gì chờ duyệt — Banno đang tự xử lý các tin an toàn.</p>
+             </div>`}
+      </div>
+    </section>`;
+
+  return `
+    <div class="max-w-[1500px] mx-auto w-full grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_400px] gap-6">
+      <div class="flex flex-col space-y-6 order-2 xl:order-1">${left}</div>
+      <div class="order-1 xl:order-2">${right}</div>
+    </div>`;
+}
+
+/* ---------- inbox ---------- */
+
+function filterChips() {
+  const counts = {
+    all: state.conversations.length,
+    pending: state.conversations.filter((c) => c.pending_count > 0).length,
+    website: state.conversations.filter((c) => c.channel === "website").length,
+    telegram: state.conversations.filter((c) => c.channel === "telegram").length,
+    messenger: state.conversations.filter((c) => c.channel === "messenger").length,
+  };
+  const chip = (key, label, extra = "") => {
+    const on = state.filter === key;
+    const cls = on ? "bg-primary-container text-on-primary" : "bg-surface-container-lowest text-on-surface-variant hover:text-on-surface";
+    return `<button class="flex-shrink-0 px-3.5 py-1.5 rounded-full ${cls} font-label-sm text-label-sm shadow-sm flex items-center gap-1.5 transition-colors" onclick="setFilter('${key}')">${extra}${label} <span class="opacity-70">${counts[key]}</span></button>`;
+  };
+  return `
+    <div class="flex items-center gap-2 overflow-x-auto lg:overflow-visible lg:flex-wrap no-scrollbar py-1">
+      ${chip("all", "Tất cả")}
+      ${chip("pending", "Cần duyệt", '<span class="material-symbols-outlined text-[14px]">priority_high</span>')}
+      ${chip("website", "Website", '<span class="material-symbols-outlined text-[14px]">language</span>')}
+      ${chip("telegram", "Telegram", '<span class="material-symbols-outlined text-[14px]">send</span>')}
+      ${chip("messenger", "Messenger", '<span class="material-symbols-outlined text-[14px]">chat</span>')}
+    </div>`;
+}
+
+function ticket(c) {
+  const name = c.customer_name || c.display_name || c.external_id;
+  const active = isDesktop() && state.activeConv === c.id;
+  const agentLine = c.pending_count
+    ? { text: "Chờ bạn duyệt", cls: "text-tertiary-container" }
+    : (STATUS_LABEL[c.last_out_status] || { text: "Đang xử lý", cls: "text-on-surface-variant" });
+  return `
+    <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-3 transition-all hover:shadow-md cursor-pointer border ${active ? "border-primary" : "border-transparent"}" onclick="openThread(${c.id})">
+      <div class="flex items-start justify-between gap-3">
+        ${avatar(c)}
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between gap-1">
+            <div class="flex items-center gap-1.5 truncate">
+              <h2 class="font-headline-sm text-headline-sm text-on-surface truncate">${esc(name)}</h2>
+              ${c.vip ? '<span class="px-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-micro-header text-micro-header uppercase flex-shrink-0">VIP</span>' : ""}
+            </div>
+            <span class="font-label-sm text-label-sm text-on-surface-variant flex-shrink-0">${timeAgo(c.last_message_at)}</span>
+          </div>
+          <div class="flex items-center gap-1.5 mt-1">${priorityChip(c.last_priority, c.last_intent)}</div>
+        </div>
+      </div>
+      <p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">${esc(c.last_body || "")}</p>
+      <div class="bg-surface-container-low rounded-lg p-2.5 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2 min-w-0">
+          <div class="w-6 h-6 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed flex-shrink-0">
+            <span class="material-symbols-outlined text-[14px]">smart_toy</span>
+          </div>
+          <div class="flex flex-col min-w-0">
+            <span class="font-micro-header text-micro-header uppercase text-on-surface-variant">${c.message_count} tin · ${esc((CHANNEL[c.channel] || {}).label || c.channel)}</span>
+            <span class="font-label-sm text-label-sm ${agentLine.cls} truncate">${agentLine.text}</span>
+          </div>
+        </div>
+        ${c.pending_count
+          ? `<span class="px-2 py-1 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed font-micro-header text-micro-header flex items-center gap-1 flex-shrink-0">
+               <span class="material-symbols-outlined text-[13px]">pan_tool</span> ${c.pending_count}</span>`
+          : `<span class="material-symbols-outlined text-on-surface-variant text-[18px] flex-shrink-0">chevron_right</span>`}
+      </div>
+    </div>`;
+}
+
+function conversationList() {
+  let list = state.conversations;
+  if (state.filter === "pending") list = list.filter((c) => c.pending_count > 0);
+  else if (state.filter !== "all") list = list.filter((c) => c.channel === state.filter);
+  if (state.search.trim()) {
+    const q = state.search.toLowerCase();
+    list = list.filter((c) => `${c.customer_name || ""} ${c.display_name || ""} ${c.last_body || ""}`.toLowerCase().includes(q));
+  }
+  const vipPending = state.conversations.filter((c) => c.pending_count > 0 && c.vip).length;
+
+  return `
+    <div class="flex flex-col space-y-4">
+      <div class="relative">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+        <input id="search" value="${esc(state.search)}" oninput="onSearch(this.value)" class="w-full h-10 pl-9 pr-3 rounded-xl bg-surface-container-lowest font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none shadow-sm" placeholder="Tìm theo tên khách, nội dung, mã đơn…" type="text"/>
+      </div>
+      ${filterChips()}
+      ${state.pending.length
+        ? `<div class="bg-tertiary-fixed text-on-tertiary-fixed rounded-xl p-3.5 shadow-sm flex items-start justify-between gap-3">
+             <div class="flex items-start gap-2.5">
+               <div class="w-8 h-8 rounded-lg bg-tertiary/10 flex items-center justify-center text-tertiary flex-shrink-0 mt-0.5">
+                 <span class="material-symbols-outlined text-[18px]">verified_user</span>
+               </div>
+               <div class="flex flex-col">
+                 <span class="font-micro-header text-micro-header uppercase tracking-wider text-tertiary">Yêu cầu can thiệp</span>
+                 <p class="font-body-sm text-body-sm mt-0.5">${state.pending.length} bản nháp đang chờ bạn duyệt${vipPending ? `, trong đó ${vipPending} từ khách <strong class="font-semibold">VIP</strong>` : ""}.</p>
+               </div>
+             </div>
+             <button class="w-7 h-7 flex items-center justify-center rounded-lg bg-tertiary/10 text-tertiary flex-shrink-0" onclick="go('dashboard')">
+               <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+             </button>
+           </div>`
+        : ""}
+      <div class="flex items-center justify-between px-1">
+        <span class="font-micro-header text-micro-header uppercase tracking-wider text-on-surface-variant">Hội thoại đang hoạt động</span>
+        <span class="font-label-sm text-label-sm text-primary flex items-center gap-0.5">
+          <span class="material-symbols-outlined text-[14px]">auto_awesome</span> ${state.stats ? state.stats.totals.auto_sent : 0} tin AI tự gửi
+        </span>
+      </div>
+      <div class="flex flex-col space-y-3">
+        ${list.length ? list.map(ticket).join("") : '<p class="font-body-sm text-body-sm text-on-surface-variant px-1">Không có hội thoại nào khớp bộ lọc.</p>'}
+      </div>
+    </div>`;
+}
+
+function renderInbox() {
+  if (!isDesktop()) {
+    return `<div class="max-w-[1500px] mx-auto w-full">${conversationList()}</div>`;
+  }
+  return `
+    <div class="max-w-[1500px] mx-auto w-full grid grid-cols-[minmax(340px,400px)_minmax(0,1fr)] gap-6 items-start">
+      <div>${conversationList()}</div>
+      <div class="sticky top-0">
+        ${state.thread ? threadPane() : `
+          <div class="bg-surface-container-lowest rounded-xl p-10 shadow-sm flex flex-col items-center justify-center text-center gap-2 min-h-[400px]">
+            <span class="material-symbols-outlined text-[40px] text-outline">forum</span>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">Chọn một hội thoại bên trái để xem chi tiết và trả lời.</p>
+          </div>`}
+      </div>
+    </div>`;
+}
+
+/* ---------- thread ---------- */
+
+function bubble(m) {
+  const c = state.thread.conversation;
+  const who = c.customer_name || c.display_name;
+  if (m.direction === "in") {
+    return `
+      <div class="flex items-start gap-2.5 max-w-[92%] lg:max-w-[75%] self-start">
+        <div class="w-8 h-8 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center shrink-0 mt-0.5 font-label-sm text-label-sm">${esc(initials(who))}</div>
+        <div class="flex flex-col gap-1 min-w-0">
+          <div class="flex items-baseline gap-1.5">
+            <span class="font-label-sm text-label-sm font-semibold text-on-surface">${esc(who)}</span>
+            <span class="font-micro-header text-micro-header text-on-surface-variant">${hhmm(m.created_at)}</span>
+          </div>
+          <div class="bg-surface-container-lowest rounded-2xl rounded-tl-sm p-3.5 shadow-sm text-on-surface font-body-md text-body-md leading-relaxed">${esc(m.body)}</div>
+          ${m.intent ? `<div class="flex items-center gap-1.5 flex-wrap">${priorityChip(m.priority, m.intent)}<span class="font-micro-header text-micro-header text-on-surface-variant">${esc(m.sentiment || "")}</span></div>` : ""}
+        </div>
+      </div>`;
+  }
+  const st = STATUS_LABEL[m.status] || { text: m.status || "", icon: "info", cls: "text-on-surface-variant" };
+  const isHuman = m.agent === "human";
+  return `
+    <div class="flex items-start gap-2.5 max-w-[92%] lg:max-w-[75%] self-end flex-row-reverse">
+      <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-sm shrink-0 mt-0.5">
+        <span class="material-symbols-outlined text-[18px]">${isHuman ? "person" : "smart_toy"}</span>
+      </div>
+      <div class="flex flex-col items-end gap-1 min-w-0">
+        <div class="flex items-baseline gap-1.5 flex-row-reverse">
+          <span class="font-label-sm text-label-sm font-semibold text-on-surface">${isHuman ? "Chủ shop" : "Banno Agent"}</span>
+          <span class="font-micro-header text-micro-header text-on-surface-variant">${hhmm(m.created_at)}</span>
+        </div>
+        <div class="bg-primary text-on-primary rounded-2xl rounded-tr-sm p-3.5 shadow-sm font-body-md text-body-md leading-relaxed text-left">${esc(m.body)}</div>
+        <div class="flex items-center gap-1 ${st.cls}">
+          <span class="material-symbols-outlined text-[13px]">${st.icon}</span>
+          <span class="font-micro-header text-micro-header font-medium">${st.text}</span>
+          ${m.upsell ? '<span class="font-micro-header text-micro-header text-primary ml-1">· cross-sell</span>' : ""}
+        </div>
+      </div>
+    </div>`;
+}
+
+function threadPane() {
+  const t = state.thread;
+  const c = t.conversation;
+  const draft = t.messages.find((m) => m.status === "pending_review");
+  const name = c.customer_name || c.display_name || c.external_id;
+
+  return `
+    <div class="bg-surface-container-low rounded-xl shadow-sm flex flex-col lg:max-h-[calc(100vh-8rem)] overflow-hidden">
+      <div class="flex-shrink-0 bg-surface-container-lowest p-3.5 flex items-center gap-3 border-b border-outline-variant/50">
+        <button class="lg:hidden w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface" onclick="go('inbox')">
+          <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        </button>
+        ${avatar(c, "w-10 h-10")}
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-1.5">
+            <h2 class="font-headline-sm text-headline-sm truncate">${esc(name)}</h2>
+            ${c.vip ? '<span class="px-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-micro-header text-micro-header uppercase">VIP</span>' : ""}
+          </div>
+          <span class="font-micro-header text-micro-header text-on-surface-variant uppercase">${esc((CHANNEL[c.channel] || {}).label || c.channel)}${c.lifetime_value ? ` · LTV ${c.lifetime_value.toLocaleString("vi-VN")}₫` : ""}</span>
+        </div>
+        ${draft ? '<span class="px-2 py-1 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed font-micro-header text-micro-header flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">pan_tool</span> Chờ duyệt</span>' : ""}
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4 min-h-[240px]">
+        ${draft
+          ? `<div class="bg-tertiary-fixed text-on-tertiary-fixed rounded-xl p-3 shadow-sm flex items-start gap-2.5">
+               <span class="material-symbols-outlined text-tertiary text-[18px] mt-0.5">pan_tool</span>
+               <p class="font-body-sm text-body-sm">Banno đã dừng lại và <strong class="font-semibold">chưa gửi gì cho khách</strong>. Duyệt bản nháp bên dưới để gửi đi.</p>
+             </div>`
+          : ""}
+        ${t.messages.filter((m) => m.status !== "pending_review").map(bubble).join("")}
+      </div>
+
+      ${draft
+        ? `<section class="flex-shrink-0 border-t border-outline-variant/50 bg-gradient-to-br from-surface-container-lowest via-surface-container-low to-surface-container-lowest p-3.5">
+             <div class="flex items-center justify-between mb-2">
+               <div class="flex items-center gap-1.5">
+                 <span class="material-symbols-outlined text-primary text-[18px]">auto_awesome</span>
+                 <span class="font-micro-header text-micro-header text-primary font-bold tracking-wider uppercase">Bản nháp chờ duyệt</span>
+               </div>
+               <span class="px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-micro-header text-micro-header">${esc(draft.reasoning || "")}</span>
+             </div>
+             <textarea id="edit-${draft.id}" class="w-full min-h-[84px] bg-surface-container-lowest rounded-lg p-3 text-on-surface font-body-sm text-body-sm leading-relaxed mb-2.5 border border-outline-variant focus:outline-none focus:border-primary">${esc(draft.body)}</textarea>
+             <div class="flex items-center justify-between gap-2">
+               <button class="flex items-center gap-1.5 h-9 px-4 rounded-full bg-primary text-on-primary font-label-sm text-label-sm shadow-sm hover:bg-primary-container active:scale-95 transition-all" onclick="approveFromThread(${draft.id})">
+                 <span class="material-symbols-outlined text-[16px]">done_all</span> Duyệt &amp; gửi
+               </button>
+               <button class="h-9 px-4 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm hover:brightness-95 active:scale-95 transition-all" onclick="reject(${draft.id})">Từ chối</button>
+             </div>
+           </section>`
+        : ""}
+
+      <div class="flex-shrink-0 border-t border-outline-variant/50 bg-surface-container-lowest p-2.5">
+        <div class="flex items-center gap-2">
+          <input id="composer" class="flex-1 h-10 bg-surface-container-low rounded-lg px-3 text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none" placeholder="Tự nhắn cho ${esc(name)}…" type="text" onkeydown="if(event.key==='Enter')sendManual()"/>
+          <button aria-label="Gửi" class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary-container text-on-primary shadow-sm hover:bg-primary transition-colors" onclick="sendManual()">
+            <span class="material-symbols-outlined text-[18px]">send</span>
+          </button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderThread() {
+  if (!state.thread) return '<p class="font-body-sm text-body-sm text-on-surface-variant">Đang tải…</p>';
+  return `<div class="max-w-[1500px] mx-auto w-full">${threadPane()}</div>`;
+}
+
+/* ---------- analytics ---------- */
+
+function bar(label, value, total, colorCls) {
+  const pct = total ? Math.round((value / total) * 100) : 0;
+  return `
+    <div class="space-y-1">
+      <div class="flex items-center justify-between">
+        <span class="font-label-sm text-label-sm text-on-surface">${esc(label)}</span>
+        <span class="font-label-sm text-label-sm text-on-surface-variant">${value} · ${pct}%</span>
+      </div>
+      <div class="h-2 w-full rounded-full bg-surface-container overflow-hidden">
+        <div class="h-full rounded-full ${colorCls}" style="width:${pct}%"></div>
+      </div>
+    </div>`;
+}
+
+function renderAnalytics() {
+  const s = state.stats;
+  if (!s) return '<p class="font-body-sm text-body-sm text-on-surface-variant">Đang tải…</p>';
+  const prioTotal = s.by_priority.reduce((a, b) => a + b.n, 0);
+  const chanTotal = s.by_channel.reduce((a, b) => a + b.messages, 0);
+  const intentTotal = s.by_intent.reduce((a, b) => a + b.n, 0);
+  const prioColor = { urgent: "bg-error", high: "bg-tertiary-container", normal: "bg-primary", low: "bg-outline-variant" };
+
+  return `
+  <div class="max-w-[1500px] mx-auto w-full space-y-5">
+    <section class="space-y-2.5">
+      ${sectionHeader("Tự động hoá")}
+      <div class="grid grid-cols-2 xl:grid-cols-4 gap-3">
+        ${metricTile("AI tự gửi", s.totals.auto_sent, `${s.auto_rate}% tổng số`, "bolt", "text-primary")}
+        ${metricTile("Qua duyệt", s.totals.reviewed_sent, `${s.totals.edited_sent} tin được sửa`, "verified")}
+        ${metricTile("Từ chối", s.totals.rejected, "bản nháp bị loại", "block", s.totals.rejected ? "text-error" : "text-on-surface")}
+        ${metricTile("Đang chờ", s.totals.pending, "cần bạn xử lý", "hourglass_top", s.totals.pending ? "text-tertiary-container" : "text-on-surface")}
+      </div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
+      <section class="space-y-2.5">
+        ${sectionHeader("Mức độ ưu tiên tin khách")}
+        <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-3">
+          ${s.by_priority.length
+            ? s.by_priority.map((p) => bar(PRIORITY_LABEL[p.priority] || p.priority, p.n, prioTotal, prioColor[p.priority] || "bg-primary")).join("")
+            : '<p class="font-body-sm text-body-sm text-on-surface-variant">Chưa có dữ liệu.</p>'}
+        </div>
+      </section>
+
+      <section class="space-y-2.5">
+        ${sectionHeader("Kênh tiếp nhận")}
+        <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-3">
+          <div class="h-2.5 w-full rounded-full overflow-hidden flex bg-surface-container">
+            ${s.by_channel.map((c, i) => `<div class="h-full ${i === 0 ? "bg-primary" : "bg-primary-fixed-dim"}" style="width:${chanTotal ? (c.messages / chanTotal) * 100 : 0}%"></div>`).join("")}
+          </div>
+          ${s.by_channel.map((c) => `
+            <div class="flex items-center justify-between">
+              <span class="font-label-sm text-label-sm text-on-surface flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[15px] text-on-surface-variant">${(CHANNEL[c.channel] || CHANNEL.website).icon}</span>
+                ${esc((CHANNEL[c.channel] || {}).label || c.channel)}
+              </span>
+              <span class="font-label-sm text-label-sm text-on-surface-variant">${c.conversations} hội thoại · ${c.messages} tin</span>
+            </div>`).join("")}
+        </div>
+      </section>
+
+      <section class="space-y-2.5">
+        ${sectionHeader("Khách hỏi về gì")}
+        <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-3">
+          ${s.by_intent.length
+            ? s.by_intent.map((i) => bar(INTENT_LABEL[i.intent] || i.intent, i.n, intentTotal, "bg-primary")).join("")
+            : '<p class="font-body-sm text-body-sm text-on-surface-variant">Chưa có dữ liệu.</p>'}
+        </div>
+      </section>
+    </div>
+  </div>`;
+}
+
+/* ---------- settings ---------- */
+
+function row(label, value, ok) {
+  return `
+    <div class="flex items-center justify-between py-2.5 border-b border-outline-variant/50 last:border-0">
+      <span class="font-label-sm text-label-sm text-on-surface-variant">${esc(label)}</span>
+      <span class="font-label-sm text-label-sm ${ok === undefined ? "text-on-surface" : ok ? "text-primary" : "text-error"} flex items-center gap-1">
+        ${ok === undefined ? "" : `<span class="material-symbols-outlined text-[14px]">${ok ? "check_circle" : "cancel"}</span>`}${esc(value)}
+      </span>
+    </div>`;
+}
+
+function renderSettings() {
+  const h = state.health;
+  if (!h) return '<p class="font-body-sm text-body-sm text-on-surface-variant">Đang tải…</p>';
+  return `
+  <div class="max-w-[1000px] mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
+    <section class="space-y-2.5">
+      ${sectionHeader("Kết nối hệ thống")}
+      <div class="bg-surface-container-lowest rounded-xl px-4 py-1 shadow-sm">
+        ${row("Mô hình AI", h.llm.model, h.llm.live)}
+        ${row("Nhà cung cấp", h.llm.provider)}
+        ${row("Khu vực", h.llm.location)}
+        ${row("Telegram", h.telegram_enabled ? "Đã kết nối" : "Chưa cấu hình", h.telegram_enabled)}
+        ${row("Messenger", h.messenger_enabled ? "Đã kết nối" : "Chưa cấu hình", h.messenger_enabled)}
+      </div>
+    </section>
+    <section class="space-y-2.5">
+      ${sectionHeader("Kênh đang chạy")}
+      <div class="bg-surface-container-lowest rounded-xl px-4 py-1 shadow-sm">
+        ${row("Website widget", "/widget/", true)}
+        ${row("Telegram bot", h.telegram_enabled ? "Đang lắng nghe" : "Tắt", h.telegram_enabled)}
+        ${row("Messenger webhook", h.messenger_enabled ? "/webhooks/messenger" : "Tắt", h.messenger_enabled)}
+        ${row("Duyệt qua Telegram", h.telegram_enabled ? "Bật" : "Tắt", h.telegram_enabled)}
+      </div>
+    </section>
+    <section class="space-y-2.5 lg:col-span-2">
+      ${sectionHeader("Quy tắc tự động")}
+      <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-2">
+        <p class="font-body-sm text-body-sm text-on-surface-variant">Banno chỉ tự động trả lời các loại tin an toàn. Mọi tin còn lại đều dừng lại chờ bạn duyệt.</p>
+        <div class="flex flex-wrap gap-1.5 pt-1">
+          ${["product_inquiry", "order_status", "general_faq"].map((i) => `<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-micro-header text-micro-header">${INTENT_LABEL[i]}</span>`).join("")}
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          ${["complaint", "refund_request"].map((i) => `<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-micro-header text-micro-header">${INTENT_LABEL[i]} → cần duyệt</span>`).join("")}
+        </div>
+      </div>
+    </section>
+  </div>`;
+}
+
+/* ---------- actions ---------- */
+
+function setFilter(f) { state.filter = f; render(); }
+function onSearch(v) { state.search = v; render(); }
+function toggleEdit(id) { state.editing = state.editing === id ? null : id; render(); }
+
+async function approve(id) {
+  const box = $(`edit-${id}`);
+  const edited = box ? box.value : null;
+  try {
+    const res = await jpost(`/api/pending/${id}/approve`, { edited_text: edited });
+    state.editing = null;
+    toast(res.status === "edited_sent" ? "Đã sửa và gửi cho khách" : "Đã duyệt và gửi cho khách");
+    await refresh();
+    if (state.activeConv) await loadThread(state.activeConv);
+    render();
+  } catch { toast("Không gửi được", "error"); }
+}
+
+const approveFromThread = approve;
+
+async function reject(id) {
+  try {
+    await jpost(`/api/pending/${id}/reject`);
+    state.editing = null;
+    toast("Đã từ chối bản nháp", "block");
+    await refresh();
+    if (state.activeConv) await loadThread(state.activeConv);
+    render();
+  } catch { toast("Thao tác thất bại", "error"); }
+}
+
+async function proactiveScan() {
+  toast("Sales Agent đang quét…", "radar");
+  try {
+    const res = await jpost("/api/proactive/scan");
+    toast(res.length ? `Đã soạn ${res.length} tin chủ động` : "Không có đơn nào cần theo dõi");
+    await refresh();
+    render();
+  } catch { toast("Quét thất bại", "error"); }
+}
+
+async function sendManual() {
+  const input = $("composer");
+  const text = input.value.trim();
+  if (!text || !state.activeConv) return;
+  input.value = "";
+  try {
+    await jpost(`/api/conversations/${state.activeConv}/reply`, { text });
+    await loadThread(state.activeConv);
+    await refresh();
+    render();
+    toast("Đã gửi tin của bạn");
+  } catch { toast("Không gửi được", "error"); }
+}
+
+async function openThread(id) {
+  state.activeConv = id;
+  await loadThread(id);
+  if (isDesktop()) { state.view = "inbox"; render(); }
+  else go("thread");
+}
+
+async function loadThread(id) { state.thread = await jget(`/api/conversations/${id}/messages`); }
+
+function go(view) {
+  state.view = view;
+  state.editing = null;
+  render();
+  if (!isDesktop()) window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ---------- shell ---------- */
+
+function renderNav() {
+  const navItem = (n, desktop) => {
+    const on = state.view === n.key || (n.key === "inbox" && state.view === "thread");
+    const badge = n.key === "inbox" && state.pending.length
+      ? `<span class="${desktop ? "ml-auto bg-error text-on-error rounded-full px-1.5 font-micro-header text-micro-header" : "absolute -top-1 -right-2 bg-error text-on-error font-micro-header text-micro-header rounded-full px-1 min-w-[14px] text-center leading-tight"}">${state.pending.length}</span>`
+      : "";
+    if (desktop) {
+      return `<a href="#" onclick="event.preventDefault(); go('${n.key}')" class="flex items-center gap-3 h-11 px-3 rounded-xl transition-colors ${on ? "bg-secondary-container text-primary" : "text-on-surface-variant hover:bg-surface-container"}">
+                <span class="material-symbols-outlined text-[20px]">${n.icon}</span>
+                <span class="font-label-md text-label-md">${n.label}</span>${badge}
+              </a>`;
+    }
+    return `<a href="#" onclick="event.preventDefault(); go('${n.key}')" class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 transition-colors ${on ? "text-primary" : "text-on-surface-variant"}">
+              <div class="relative flex items-center justify-center"><span class="material-symbols-outlined text-[24px]">${n.icon}</span>${badge}</div>
+              <span class="font-label-sm text-label-sm mt-0.5">${n.label}</span>
+            </a>`;
+  };
+  $("nav-items").innerHTML = NAV.map((n) => navItem(n, false)).join("");
+  $("side-nav").innerHTML = NAV.map((n) => navItem(n, true)).join("");
+}
+
+function renderStatusPanel() {
+  const h = state.health;
+  if (!h) return;
+  const live = h.llm_live;
+  $("side-status").innerHTML = `
+    <div class="flex items-center gap-1.5">
+      <span class="w-2 h-2 rounded-full ${live ? "bg-emerald-500" : "bg-error"}"></span>
+      <span class="font-micro-header text-micro-header uppercase text-on-surface-variant">${live ? "Agent đang chạy" : "Agent offline"}</span>
+    </div>
+    <p class="font-label-sm text-label-sm text-on-surface truncate">${esc(h.llm.model)}</p>
+    <p class="font-micro-header text-micro-header text-on-surface-variant">${esc(h.llm.provider)} · ${esc(h.llm.location)}</p>
+    <div class="flex items-center gap-1 pt-1">
+      <span class="material-symbols-outlined text-[14px] ${h.telegram_enabled ? "text-primary" : "text-outline"}">send</span>
+      <span class="font-micro-header text-micro-header text-on-surface-variant">Telegram ${h.telegram_enabled ? "đã bật" : "tắt"}</span>
+    </div>`;
+  $("model-chip").innerHTML = `<span class="w-2 h-2 rounded-full ${live ? "bg-emerald-500" : "bg-error"}"></span>${esc(h.llm.model)}`;
+}
+
+function render() {
+  const views = { dashboard: renderDashboard, inbox: renderInbox, thread: renderThread, analytics: renderAnalytics, settings: renderSettings };
+  // On desktop the thread lives inside the inbox two-pane layout.
+  const view = isDesktop() && state.view === "thread" ? "inbox" : state.view;
+  $("view").innerHTML = (views[view] || renderDashboard)();
+  const label = view === "thread" ? "Hội thoại" : (NAV.find((n) => n.key === view) || {}).label || "";
+  $("view-label").textContent = label;
+  $("view-title").textContent = label;
+  $("bottom-nav").classList.toggle("hidden", !isDesktop() && state.view === "thread");
+  $("header-dot").classList.toggle("hidden", !state.pending.length);
+  const live = state.health && state.health.llm_live;
+  $("llm-dot").className = `absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full ring-2 ring-surface ${live ? "bg-emerald-500" : "bg-error"}`;
+  renderNav();
+  renderStatusPanel();
+}
+
+async function refresh() {
+  const [health, conversations, pending, stats] = await Promise.all([
+    jget("/api/health"), jget("/api/conversations"), jget("/api/pending"), jget("/api/stats"),
+  ]);
+  Object.assign(state, { health, conversations, pending, stats });
+}
+
+async function tick() {
+  // Never re-render under the user's fingers while they are typing a reply.
+  if (["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) return;
+  try {
+    await refresh();
+    if (state.activeConv) await loadThread(state.activeConv);
+    render();
+  } catch { /* transient network error — keep the last good render */ }
+}
+
+(async function start() {
+  clockTick();
+  setInterval(clockTick, 10000);
+  window.matchMedia("(min-width: 1024px)").addEventListener("change", render);
+  await refresh();
+  render();
+  setInterval(tick, 4000);
+})();
+</script>
+</body>
+</html>

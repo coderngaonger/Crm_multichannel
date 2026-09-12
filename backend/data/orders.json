@@ -1,0 +1,41 @@
+[
+  {
+    "id": "O1001",
+    "order_number": "#1001",
+    "customer_id": "C001",
+    "line_items": [
+      {"product_id": "P001", "variant_id": "V001-black", "title": "Kính râm Aviator Classic (Đen)", "quantity": 1, "price": 590000}
+    ],
+    "financial_status": "paid",
+    "fulfillment_status": "shipped",
+    "tracking_number": "GHN10029384",
+    "created_at": "2026-09-08T10:15:00+07:00",
+    "estimated_delivery": "2026-09-13"
+  },
+  {
+    "id": "O1002",
+    "order_number": "#1002",
+    "customer_id": "C002",
+    "line_items": [
+      {"product_id": "P002", "variant_id": "V002-tortoise", "title": "Kính râm Wayfarer Mini (Đồi mồi)", "quantity": 1, "price": 450000}
+    ],
+    "financial_status": "paid",
+    "fulfillment_status": "unfulfilled",
+    "tracking_number": null,
+    "created_at": "2026-09-11T16:40:00+07:00",
+    "estimated_delivery": "2026-09-16"
+  },
+  {
+    "id": "O1003",
+    "order_number": "#1003",
+    "customer_id": "C003",
+    "line_items": [
+      {"product_id": "P003", "variant_id": "V003-black", "title": "Kính cận gọng titan siêu nhẹ (Đen)", "quantity": 1, "price": 890000}
+    ],
+    "financial_status": "refund_requested",
+    "fulfillment_status": "delivered",
+    "tracking_number": "GHN10028811",
+    "created_at": "2026-09-01T09:00:00+07:00",
+    "estimated_delivery": "2026-09-05"
+  }
+]

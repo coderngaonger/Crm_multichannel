@@ -1,0 +1,78 @@
+[
+  {
+    "id": "P001",
+    "title": "Kính râm Aviator Classic",
+    "category": "sunglasses",
+    "price": 590000,
+    "currency": "VND",
+    "tags": ["nam", "nu", "unisex", "aviator", "ban-chay"],
+    "variants": [
+      {"id": "V001-black", "color": "Đen", "sku": "AV-BLK", "inventory_quantity": 12},
+      {"id": "V001-gold", "color": "Vàng gold", "sku": "AV-GLD", "inventory_quantity": 0},
+      {"id": "V001-silver", "color": "Bạc", "sku": "AV-SLV", "inventory_quantity": 5}
+    ],
+    "related_product_ids": ["P010", "P011"]
+  },
+  {
+    "id": "P002",
+    "title": "Kính râm Wayfarer Mini",
+    "category": "sunglasses",
+    "price": 450000,
+    "currency": "VND",
+    "tags": ["nu", "unisex", "wayfarer"],
+    "variants": [
+      {"id": "V002-black", "color": "Đen", "sku": "WF-BLK", "inventory_quantity": 8},
+      {"id": "V002-tortoise", "color": "Đồi mồi", "sku": "WF-TOR", "inventory_quantity": 3}
+    ],
+    "related_product_ids": ["P010"]
+  },
+  {
+    "id": "P003",
+    "title": "Kính cận gọng titan siêu nhẹ",
+    "category": "eyeglasses",
+    "price": 890000,
+    "currency": "VND",
+    "tags": ["gong-kinh", "titan", "unisex"],
+    "variants": [
+      {"id": "V003-black", "color": "Đen", "sku": "TI-BLK", "inventory_quantity": 4},
+      {"id": "V003-blue", "color": "Xanh navy", "sku": "TI-BLU", "inventory_quantity": 6}
+    ],
+    "related_product_ids": ["P011", "P012"]
+  },
+  {
+    "id": "P010",
+    "title": "Khăn lau kính microfiber cao cấp",
+    "category": "accessory",
+    "price": 45000,
+    "currency": "VND",
+    "tags": ["phu-kien", "upsell"],
+    "variants": [
+      {"id": "V010-std", "color": "Xám", "sku": "ACC-CLOTH", "inventory_quantity": 200}
+    ],
+    "related_product_ids": []
+  },
+  {
+    "id": "P011",
+    "title": "Hộp đựng kính chống sốc",
+    "category": "accessory",
+    "price": 89000,
+    "currency": "VND",
+    "tags": ["phu-kien", "upsell"],
+    "variants": [
+      {"id": "V011-std", "color": "Đen", "sku": "ACC-CASE", "inventory_quantity": 150}
+    ],
+    "related_product_ids": []
+  },
+  {
+    "id": "P012",
+    "title": "Gói tráng phủ chống ánh sáng xanh",
+    "category": "service",
+    "price": 150000,
+    "currency": "VND",
+    "tags": ["dich-vu", "upsell"],
+    "variants": [
+      {"id": "V012-std", "color": "N/A", "sku": "SVC-BLUE", "inventory_quantity": 999}
+    ],
+    "related_product_ids": []
+  }
+]

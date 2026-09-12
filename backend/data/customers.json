@@ -1,0 +1,26 @@
+[
+  {
+    "id": "C001",
+    "name": "Nguyễn Thu Hà",
+    "email": "thuha@example.com",
+    "phone": "0901234567",
+    "vip": true,
+    "lifetime_value": 4200000
+  },
+  {
+    "id": "C002",
+    "name": "Trần Minh Khôi",
+    "email": "khoi.tran@example.com",
+    "phone": "0912345678",
+    "vip": false,
+    "lifetime_value": 450000
+  },
+  {
+    "id": "C003",
+    "name": "Lê Bảo An",
+    "email": "baoan.le@example.com",
+    "phone": "0987654321",
+    "vip": false,
+    "lifetime_value": 890000
+  }
+]
