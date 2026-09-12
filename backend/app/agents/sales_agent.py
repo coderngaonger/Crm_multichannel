@@ -4,6 +4,7 @@ proactive scan that drafts outreach for orders sitting unfulfilled — the
 through human-in-the-loop review."""
 from .. import config, llm
 from ..commerce.provider import get_provider
+from . import knowledge_agent
 
 
 def maybe_add_upsell(classification: dict, ctx: dict, reply_text: str) -> str:
@@ -21,6 +22,7 @@ def maybe_add_upsell(classification: dict, ctx: dict, reply_text: str) -> str:
     system_prompt = (
         "Bạn là Sales Agent của BannoCRM. Viết đúng 1 câu tiếng Việt, ngắn, không quá mời chào, "
         "gợi ý khách hàng xem thêm một sản phẩm liên quan (cross-sell), dựa trên sản phẩm khách vừa hỏi."
+        + knowledge_agent.as_prompt_block()
     )
     user_prompt = f"Sản phẩm khách hỏi: {ctx['products'][0]['title']}\nSản phẩm gợi ý thêm: {pick['title']} ({pick['price']:,.0f} {pick['currency']})"
     line = llm.complete_text(system_prompt, user_prompt, fallback_line.strip())

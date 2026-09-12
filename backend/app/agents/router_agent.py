@@ -50,7 +50,7 @@ def _rule_based_fallback(text: str, customer_vip: bool) -> dict:
     }
 
 
-def classify(text: str, customer: dict | None) -> dict:
+def classify(text: str, customer: dict | None, history: str = "") -> dict:
     vip = bool(customer and customer.get("vip"))
     fallback = _rule_based_fallback(text, vip)
 
@@ -63,9 +63,15 @@ def classify(text: str, customer: dict | None) -> dict:
         "priority (low|normal|high|urgent), "
         "requires_review (true if a human should approve the reply before sending - always true for "
         "complaints, refund requests, or negative-sentiment VIP customers), "
-        "reasoning (lý do ngắn gọn BẰNG TIẾNG VIỆT, dưới 15 từ)."
+        "reasoning (lý do ngắn gọn BẰNG TIẾNG VIỆT, dưới 15 từ). "
+        "Nếu có lịch sử hội thoại, hãy dùng nó để hiểu các tin ngắn/nối tiếp "
+        "(ví dụ 'thế còn màu bạc?' hay 'vẫn chưa thấy gì' phải hiểu theo chủ đề đang nói dở)."
     )
-    result = llm.complete_json(system_prompt, text, fallback)
+    user_prompt = (
+        f"Lịch sử hội thoại trước đó:\n{history}\n\nTin nhắn MỚI cần phân loại: {text}"
+        if history else text
+    )
+    result = llm.complete_json(system_prompt, user_prompt, fallback)
 
     if result.get("intent") not in INTENTS:
         result["intent"] = fallback["intent"]

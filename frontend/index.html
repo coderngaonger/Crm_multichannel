@@ -142,7 +142,7 @@ const NAV = [
 ];
 
 const state = { view: "dashboard", conversations: [], pending: [], stats: null, health: null, customers: [],
-                activeConv: null, thread: null, filter: "all", search: "", editing: null,
+                lessons: [], activeConv: null, thread: null, filter: "all", search: "", editing: null,
                 custFilter: "all", custSearch: "" };
 
 const $ = (id) => document.getElementById(id);
@@ -353,6 +353,22 @@ function renderDashboard() {
                <span class="material-symbols-outlined text-primary">task_alt</span>
                <p class="font-body-sm text-body-sm text-on-surface-variant">Không có gì chờ duyệt — Banno đang tự xử lý các tin an toàn.</p>
              </div>`}
+      </div>
+    </section>
+
+    <section class="flex flex-col w-full space-y-2.5 mt-6">
+      ${sectionHeader("Banno đã học từ bạn", `<span class="font-label-sm text-label-sm text-on-surface-variant">${state.lessons.length} quy tắc</span>`)}
+      <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-2">
+        ${state.lessons.length
+          ? state.lessons.slice(-5).reverse().map((l) => `
+              <div class="flex items-start gap-2">
+                <span class="material-symbols-outlined text-[15px] text-primary mt-0.5">school</span>
+                <div class="min-w-0">
+                  <p class="font-body-sm text-body-sm text-on-surface">${esc(l.lesson)}</p>
+                  <span class="font-micro-header text-micro-header uppercase text-on-surface-variant">${esc(l.type)}</span>
+                </div>
+              </div>`).join("")
+          : '<p class="font-body-sm text-body-sm text-on-surface-variant">Chưa có. Mỗi lần bạn sửa bản nháp trước khi gửi, Banno sẽ rút ra một quy tắc và áp dụng cho các lần sau.</p>'}
       </div>
     </section>`;
 
@@ -1114,11 +1130,11 @@ function render() {
 }
 
 async function refresh() {
-  const [health, conversations, pending, stats, customers] = await Promise.all([
+  const [health, conversations, pending, stats, customers, lessons] = await Promise.all([
     jget("/api/health"), jget("/api/conversations"), jget("/api/pending"), jget("/api/stats"),
-    jget("/api/customers"),
+    jget("/api/customers"), jget("/api/lessons"),
   ]);
-  Object.assign(state, { health, conversations, pending, stats, customers });
+  Object.assign(state, { health, conversations, pending, stats, customers, lessons });
 }
 
 async function tick() {

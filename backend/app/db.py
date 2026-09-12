@@ -145,6 +145,20 @@ def list_messages(conversation_id: int):
         return [dict(r) for r in rows]
 
 
+def recent_messages(conversation_id: int, limit: int = 6):
+    """The last few turns the customer actually saw — drafts that were never
+    approved are left out so the agents never 'remember' saying something
+    that was rejected."""
+    with get_conn() as conn:
+        rows = conn.execute(
+            "SELECT direction, body FROM messages WHERE conversation_id=? "
+            "AND (direction='in' OR status IN ('auto_sent','approved_sent','edited_sent')) "
+            "ORDER BY id DESC LIMIT ?",
+            (conversation_id, limit),
+        ).fetchall()
+        return [dict(r) for r in reversed(rows)]
+
+
 def list_messages_since(conversation_id: int, since_id: int):
     with get_conn() as conn:
         rows = conn.execute(

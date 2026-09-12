@@ -3,6 +3,7 @@ commerce context (product catalog + order lookup), so replies are grounded
 in real shop data instead of the model guessing."""
 from .. import config, llm
 from ..commerce.provider import get_provider
+from . import knowledge_agent
 
 
 def _format_product(p: dict) -> str:
@@ -23,14 +24,17 @@ def _format_order(o: dict) -> str:
     )
 
 
-def gather_context(text: str, classification: dict, customer: dict | None) -> dict:
+def gather_context(text: str, classification: dict, customer: dict | None, history: str = "") -> dict:
     provider = get_provider()
     ctx = {"products": [], "order": None, "faqs": provider.list_faqs()}
+    # Follow-ups like "thế còn màu bạc?" carry no searchable keyword on their
+    # own — the subject lives in the previous turns.
+    searchable = f"{history}\n{text}" if history else text
 
     if classification["intent"] == "product_inquiry":
-        ctx["products"] = provider.search_products(text)
+        ctx["products"] = provider.search_products(searchable)
     elif classification["intent"] in ("order_status", "refund_request"):
-        order = provider.find_order_mentioned(text)
+        order = provider.find_order_mentioned(searchable)
         if not order and customer:
             order = provider.latest_order_for_customer(customer.get("id"))
         ctx["order"] = order
@@ -38,7 +42,7 @@ def gather_context(text: str, classification: dict, customer: dict | None) -> di
     return ctx
 
 
-def draft_reply(text: str, classification: dict, customer: dict | None, ctx: dict) -> str:
+def draft_reply(text: str, classification: dict, customer: dict | None, ctx: dict, history: str = "") -> str:
     customer_name = customer["name"] if customer else "bạn"
 
     context_lines = []
@@ -66,10 +70,14 @@ def draft_reply(text: str, classification: dict, customer: dict | None, ctx: dic
         f"Bạn là Support Agent của BannoCRM cho shop kính mắt '{config.SHOP_NAME}'. "
         "Trả lời khách hàng bằng tiếng Việt, ngắn gọn (2-4 câu), lịch sự, thân thiện, đúng trọng tâm câu hỏi. "
         "CHỈ dùng thông tin có trong phần 'Dữ liệu hệ thống' bên dưới, không bịa số liệu, giá, hay tình trạng đơn hàng. "
-        "Nếu không có dữ liệu phù hợp, xin lỗi và hẹn nhân viên hỗ trợ thêm."
+        "Nếu không có dữ liệu phù hợp, xin lỗi và hẹn nhân viên hỗ trợ thêm. "
+        "Nếu có lịch sử hội thoại, hãy trả lời tiếp mạch đang nói, không chào hỏi lại từ đầu "
+        "và không lặp lại thông tin vừa nói ở lượt trước."
+        + knowledge_agent.as_prompt_block()
     )
     user_prompt = (
-        f"Tin nhắn khách hàng ({classification['intent']}): {text}\n\n"
-        f"Dữ liệu hệ thống:\n{context_block}"
+        (f"Lịch sử hội thoại trước đó:\n{history}\n\n" if history else "")
+        + f"Tin nhắn MỚI của khách ({classification['intent']}): {text}\n\n"
+        + f"Dữ liệu hệ thống:\n{context_block}"
     )
     return llm.complete_text(system_prompt, user_prompt, fallback)

@@ -22,6 +22,11 @@ from .. import config, orchestrator
 # in the same mail thread. In-memory: after a restart replies open a new thread.
 _threads: dict[str, dict] = {}
 
+# Highest IMAP UID present when the channel started. Only mail that arrives
+# after startup is ever read or answered — a mailbox with a backlog of
+# personal mail must never be auto-replied to.
+_baseline_uid: int | None = None
+
 
 def _decode(value: str | None) -> str:
     if not value:
@@ -100,29 +105,54 @@ def _handle(raw: bytes):
     orchestrator.handle_incoming("email", address, _decode(display_name) or address, text)
 
 
+def _connect():
+    imap = imaplib.IMAP4_SSL("imap.gmail.com")
+    imap.login(config.GMAIL_ADDRESS, config.GMAIL_APP_PASSWORD)
+    return imap
+
+
+def _set_baseline() -> int:
+    """Everything already in the mailbox is left untouched: unread, unanswered."""
+    with _connect() as imap:
+        imap.select("INBOX", readonly=True)
+        status, data = imap.uid("search", None, "ALL")
+        uids = data[0].split() if status == "OK" and data[0] else []
+        return int(uids[-1]) if uids else 0
+
+
 def _poll_loop():
+    global _baseline_uid
     while True:
         try:
-            with imaplib.IMAP4_SSL("imap.gmail.com") as imap:
-                imap.login(config.GMAIL_ADDRESS, config.GMAIL_APP_PASSWORD)
+            with _connect() as imap:
                 imap.select("INBOX")
-                status, data = imap.search(None, "UNSEEN")
-                if status == "OK":
-                    for num in data[0].split():
-                        status, fetched = imap.fetch(num, "(RFC822)")
-                        if status != "OK" or not fetched or not fetched[0]:
-                            continue
-                        _handle(fetched[0][1])
-                        imap.store(num, "+FLAGS", "\\Seen")
+                status, data = imap.uid("search", None, f"UID {_baseline_uid + 1}:*")
+                if status == "OK" and data[0]:
+                    for uid in data[0].split():
+                        uid_int = int(uid)
+                        if uid_int <= _baseline_uid:
+                            continue  # Gmail returns the last UID even when nothing is newer
+                        status, fetched = imap.uid("fetch", uid, "(RFC822)")
+                        if status == "OK" and fetched and fetched[0]:
+                            _handle(fetched[0][1])
+                            imap.uid("store", uid, "+FLAGS", "\\Seen")
+                        _baseline_uid = uid_int
         except Exception as exc:
             print(f"[mail] poll error: {exc}")
         time.sleep(config.GMAIL_POLL_SECONDS)
 
 
 def start():
+    global _baseline_uid
     if not config.GMAIL_ADDRESS or not config.GMAIL_APP_PASSWORD:
         print("[mail] GMAIL_ADDRESS/GMAIL_APP_PASSWORD not set — email channel disabled.")
         return
+    try:
+        _baseline_uid = _set_baseline()
+    except Exception as exc:
+        print(f"[mail] cannot reach mailbox, email channel disabled: {exc}")
+        return
     orchestrator.register_sender("email", send_message)
     threading.Thread(target=_poll_loop, daemon=True).start()
-    print(f"[mail] polling {config.GMAIL_ADDRESS} every {config.GMAIL_POLL_SECONDS}s")
+    print(f"[mail] polling {config.GMAIL_ADDRESS} every {config.GMAIL_POLL_SECONDS}s "
+          f"— ignoring everything up to UID {_baseline_uid}, only new mail is answered")

@@ -8,9 +8,10 @@ service_account.json
 *.pem
 *.key
 
-# Local data
+# Local data — runtime state, not source
 *.db
 *.sqlite3
+backend/data/learned.json
 
 # Python
 __pycache__/

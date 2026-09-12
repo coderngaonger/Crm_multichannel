@@ -166,6 +166,14 @@ def api_stats():
     return db.stats()
 
 
+@app.get("/api/lessons")
+def api_lessons():
+    """What the Knowledge Agent has learned from the owner's edits."""
+    from .agents import knowledge_agent
+
+    return knowledge_agent.load_lessons(limit=20)
+
+
 @app.get("/api/telegram/recent-chats")
 def api_recent_telegram_chats():
     """Helper for setup: message your bot once, then call this to find the

@@ -1,12 +1,12 @@
-"""Ties Router -> Support -> Sales agents together, applies the
+"""Ties Router -> Support -> Sales -> Compliance together, applies the
 human-in-the-loop gate, and dispatches outbound replies to the right
-channel. Channel modules register a `send(external_id, text)` callable here
+channel. Compliance can veto an auto-send that every other stage approved. Channel modules register a `send(external_id, text)` callable here
 at import time so this module never has to import them directly (avoids
 circular imports between orchestrator <-> channels)."""
 from typing import Callable
 
 from . import config, db
-from .agents import router_agent, sales_agent, support_agent
+from .agents import compliance_agent, knowledge_agent, router_agent, sales_agent, support_agent
 from .commerce.provider import get_provider
 
 SENDERS: dict[str, Callable[[str, str], None]] = {}
@@ -52,7 +52,13 @@ def handle_incoming(channel: str, external_id: str, display_name: str, text: str
 
     conv = db.get_or_create_conversation(channel, external_id, display_name, customer_id)
 
-    classification = router_agent.classify(text, customer)
+    # Read history before storing the new message, so it holds only prior turns.
+    history = "\n".join(
+        f"{'Khách' if m['direction'] == 'in' else 'Shop'}: {m['body']}"
+        for m in db.recent_messages(conv["id"])
+    )
+
+    classification = router_agent.classify(text, customer, history)
     db.insert_message(
         conv["id"], "in", text,
         intent=classification["intent"], sentiment=classification["sentiment"],
@@ -60,17 +66,26 @@ def handle_incoming(channel: str, external_id: str, display_name: str, text: str
     )
     db.touch_conversation(conv["id"], classification["intent"], classification["priority"])
 
-    ctx = support_agent.gather_context(text, classification, customer)
-    support_reply = support_agent.draft_reply(text, classification, customer, ctx)
+    ctx = support_agent.gather_context(text, classification, customer, history)
+    support_reply = support_agent.draft_reply(text, classification, customer, ctx, history)
     reply = sales_agent.maybe_add_upsell(classification, ctx, support_reply)
     upsell = 1 if reply != support_reply else 0
 
-    requires_review = classification["requires_review"] or classification["intent"] not in config.AUTO_SEND_INTENTS
+    compliance = compliance_agent.review(reply, classification, ctx)
+    reasoning = classification.get("reasoning") or ""
+    if compliance["violations"]:
+        reasoning = f"⚠ {'; '.join(compliance['violations'])}"
+
+    requires_review = (
+        classification["requires_review"]
+        or classification["intent"] not in config.AUTO_SEND_INTENTS
+        or not compliance["ok"]
+    )
 
     if requires_review:
         msg_id = db.insert_message(
             conv["id"], "out", reply,
-            agent="support+sales", status="pending_review", reasoning=classification.get("reasoning"),
+            agent="support+compliance", status="pending_review", reasoning=reasoning,
             upsell=upsell,
         )
         _notify_owner("review_needed", {
@@ -87,7 +102,7 @@ def handle_incoming(channel: str, external_id: str, display_name: str, text: str
 
     msg_id = db.insert_message(
         conv["id"], "out", reply,
-        agent="support+sales", status="auto_sent", reasoning=classification.get("reasoning"),
+        agent="support+compliance", status="auto_sent", reasoning=reasoning,
         upsell=upsell,
     )
     sender = SENDERS.get(channel)
@@ -120,6 +135,13 @@ def approve_pending(message_id: int, edited_text: str | None) -> dict:
     sender = SENDERS.get(conv["channel"])
     if sender:
         sender(conv["external_id"], final_text)
+
+    if status == "edited_sent":
+        last_in = next(
+            (m["body"] for m in reversed(db.list_messages(conv["id"])) if m["direction"] == "in"), None
+        )
+        knowledge_agent.learn_async(msg["body"], final_text, last_in)
+
     return {"status": status, "sent_text": final_text}
 
 
