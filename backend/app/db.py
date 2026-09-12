@@ -1,6 +1,6 @@
 import sqlite3
 from contextlib import contextmanager
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from . import config
 
@@ -190,6 +190,30 @@ def _avg_response_seconds(conn) -> float | None:
     return round(sum(deltas) / len(deltas), 1) if deltas else None
 
 
+def _hourly_volume(conn, hours: int = 8):
+    """Inbound volume per hour, split by how the reply was handled, for the
+    AI-vs-team stacked bar chart. Buckets are local time, and empty hours are
+    kept so the chart keeps a steady shape."""
+    rows = conn.execute(
+        "SELECT conversation_id, direction, status, created_at FROM messages ORDER BY id"
+    ).fetchall()
+
+    now = datetime.now().astimezone()
+    buckets: dict[str, dict] = {}
+    for offset in range(hours - 1, -1, -1):
+        slot = now - timedelta(hours=offset)
+        buckets[slot.strftime("%Y-%m-%d %H")] = {"hour": slot.strftime("%H:00"), "ai": 0, "team": 0}
+
+    for r in rows:
+        if r["direction"] != "out" or r["status"] not in SENT_STATUSES:
+            continue
+        key = datetime.fromisoformat(r["created_at"]).astimezone().strftime("%Y-%m-%d %H")
+        if key in buckets:
+            buckets[key]["ai" if r["status"] == "auto_sent" else "team"] += 1
+
+    return list(buckets.values())
+
+
 def stats():
     with get_conn() as conn:
         by_channel = [
@@ -224,6 +248,13 @@ def stats():
                 "SELECT status, COUNT(*) AS n FROM messages WHERE direction='out' GROUP BY status"
             ).fetchall()
         }
+        by_sentiment = {
+            r["sentiment"]: r["n"]
+            for r in conn.execute(
+                "SELECT sentiment, COUNT(*) AS n FROM messages "
+                "WHERE direction='in' AND sentiment IS NOT NULL GROUP BY sentiment"
+            ).fetchall()
+        }
         inbound = conn.execute("SELECT COUNT(*) AS n FROM messages WHERE direction='in'").fetchone()["n"]
         conversations = conn.execute("SELECT COUNT(*) AS n FROM conversations").fetchone()["n"]
         upsells = conn.execute("SELECT COUNT(*) AS n FROM messages WHERE upsell=1").fetchone()["n"]
@@ -251,6 +282,18 @@ def stats():
             },
             "auto_rate": round(auto / handled * 100) if handled else 0,
             "avg_response_seconds": avg_response,
+            "handled": handled,
+            "by_sentiment": by_sentiment,
+            # Share of customer messages that arrived without anger/negativity —
+            # a measurable stand-in for satisfaction (we cannot survey customers).
+            "positive_rate": (
+                round(
+                    sum(n for s, n in by_sentiment.items() if s in ("positive", "neutral"))
+                    / sum(by_sentiment.values()) * 100
+                )
+                if by_sentiment else 0
+            ),
+            "by_hour": _hourly_volume(conn),
             "by_channel": by_channel,
             "by_priority": by_priority,
             "by_intent": by_intent,

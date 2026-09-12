@@ -136,12 +136,14 @@ const STATUS_LABEL = {
 const NAV = [
   { key: "dashboard", icon: "grid_view", label: "Dashboard" },
   { key: "inbox", icon: "mail", label: "Inbox" },
+  { key: "customers", icon: "group", label: "Khách hàng" },
   { key: "analytics", icon: "insights", label: "Analytics" },
   { key: "settings", icon: "tune", label: "Cài đặt" },
 ];
 
-const state = { view: "dashboard", conversations: [], pending: [], stats: null, health: null,
-                activeConv: null, thread: null, filter: "all", search: "", editing: null };
+const state = { view: "dashboard", conversations: [], pending: [], stats: null, health: null, customers: [],
+                activeConv: null, thread: null, filter: "all", search: "", editing: null,
+                custFilter: "all", custSearch: "" };
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -369,7 +371,7 @@ function filterChips() {
     pending: state.conversations.filter((c) => c.pending_count > 0).length,
     website: state.conversations.filter((c) => c.channel === "website").length,
     telegram: state.conversations.filter((c) => c.channel === "telegram").length,
-    messenger: state.conversations.filter((c) => c.channel === "messenger").length,
+    email: state.conversations.filter((c) => c.channel === "email").length,
   };
   const chip = (key, label, extra = "") => {
     const on = state.filter === key;
@@ -382,7 +384,7 @@ function filterChips() {
       ${chip("pending", "Cần duyệt", '<span class="material-symbols-outlined text-[14px]">priority_high</span>')}
       ${chip("website", "Website", '<span class="material-symbols-outlined text-[14px]">language</span>')}
       ${chip("telegram", "Telegram", '<span class="material-symbols-outlined text-[14px]">send</span>')}
-      ${chip("messenger", "Messenger", '<span class="material-symbols-outlined text-[14px]">chat</span>')}
+      ${chip("email", "Email", '<span class="material-symbols-outlined text-[14px]">mail</span>')}
     </div>`;
 }
 
@@ -597,7 +599,176 @@ function renderThread() {
   return `<div class="max-w-[1500px] mx-auto w-full">${threadPane()}</div>`;
 }
 
+/* ---------- customers ---------- */
+
+const PRIORITY_ACCENT = {
+  urgent: { border: "border-l-error", chip: "bg-error-container text-on-error-container", icon: "bolt" },
+  high: { border: "border-l-tertiary-container", chip: "bg-tertiary-fixed text-on-tertiary-fixed", icon: "priority_high" },
+  normal: { border: "border-l-primary", chip: "bg-secondary-container text-on-secondary-container", icon: "chat_bubble" },
+  low: { border: "border-l-outline-variant", chip: "bg-surface-container text-on-surface-variant", icon: "check_circle" },
+};
+
+function customerCard(c) {
+  const accent = PRIORITY_ACCENT[c.priority] || PRIORITY_ACCENT.low;
+  const money = (n) => n.toLocaleString("vi-VN") + "₫";
+  return `
+    <div class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm border border-outline-variant/30 border-l-4 ${accent.border} flex flex-col gap-3">
+      <div class="flex items-start justify-between gap-2">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-10 h-10 rounded-full bg-secondary-fixed text-on-secondary-fixed font-headline-sm text-[13px] flex items-center justify-center ring-2 ring-surface flex-shrink-0">${esc(initials(c.name))}</div>
+          <div class="flex flex-col min-w-0">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="font-headline-sm text-[15px] text-on-surface truncate">${esc(c.name)}</span>
+              ${c.vip ? '<span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-micro-header text-[10px] uppercase">VIP</span>' : ""}
+            </div>
+            <span class="font-body-sm text-[12px] text-on-surface-variant flex items-center gap-1 truncate">
+              <span class="material-symbols-outlined text-[14px]">${(CHANNEL[c.channel] || CHANNEL.website).icon}</span>
+              ${esc(c.handle)} · ${timeAgo(c.last_message_at)}${c.lifetime_value ? ` · LTV ${money(c.lifetime_value)}` : ""}
+            </span>
+          </div>
+        </div>
+        <span class="px-2 py-0.5 rounded-full ${accent.chip} font-micro-header text-[10px] flex items-center gap-0.5 flex-shrink-0">
+          <span class="material-symbols-outlined text-[12px]">${accent.icon}</span>${esc(PRIORITY_LABEL[c.priority] || c.priority || "")}
+        </span>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <div class="font-headline-sm text-[13px] ${c.priority === "urgent" || c.priority === "high" ? "text-tertiary-container" : "text-on-surface"} flex items-center gap-1.5 flex-wrap">
+          ${esc(INTENT_LABEL[c.intent] || c.intent || "")}
+          ${c.sentiment ? `<span class="font-micro-header text-micro-header text-on-surface-variant">· ${esc(c.sentiment)}</span>` : ""}
+          ${c.order ? `<span class="font-micro-header text-micro-header text-on-surface-variant">· ${esc(c.order.order_number)} · ${money(c.order.total)}</span>` : ""}
+        </div>
+        <p class="font-body-sm text-[12.5px] text-on-surface-variant leading-relaxed line-clamp-2">${esc(c.customer_message || "")}</p>
+        ${c.order ? `<p class="font-micro-header text-micro-header text-on-surface-variant">${esc(c.order.items)} — ${esc(c.order.fulfillment_status)} / ${esc(c.order.financial_status)}</p>` : ""}
+      </div>
+
+      ${c.draft
+        ? `<div class="rounded-xl p-3 bg-surface-container-low border border-primary-fixed/70 flex flex-col gap-1">
+             <div class="flex items-center gap-1 font-micro-header text-[10.5px] text-primary tracking-wide">
+               <span class="material-symbols-outlined text-[13px]">auto_awesome</span>
+               BẢN NHÁP CHỜ DUYỆT${c.reasoning ? ` · ${esc(c.reasoning)}` : ""}
+             </div>
+             <p class="text-on-surface text-[12px] leading-relaxed">${esc(c.draft)}</p>
+           </div>
+           <div class="flex items-center gap-2 pt-1">
+             <button class="flex-1 py-2 px-3 rounded-lg border border-outline-variant text-on-surface font-label-sm text-[12.5px] hover:bg-surface-container transition-colors" onclick="openThread(${c.conversation_id})">Xem &amp; sửa</button>
+             <button class="flex-1 py-2 px-3 rounded-lg bg-primary text-on-primary font-label-sm text-[12.5px] shadow-sm hover:bg-primary-container transition-all" onclick="approve(${c.draft_id})">Duyệt &amp; gửi</button>
+           </div>`
+        : `<div class="flex items-center justify-between gap-2 pt-1">
+             <span class="font-micro-header text-micro-header text-primary flex items-center gap-1">
+               <span class="material-symbols-outlined text-[13px]">bolt</span> Banno đã tự xử lý · ${c.message_count} tin
+             </span>
+             <button class="py-1.5 px-3 rounded-lg border border-outline-variant text-on-surface font-label-sm text-[12.5px] hover:bg-surface-container transition-colors" onclick="openThread(${c.conversation_id})">Mở hội thoại</button>
+           </div>`}
+    </div>`;
+}
+
+function renderCustomers() {
+  const all = state.customers;
+  const counts = {
+    urgent: all.filter((c) => c.priority === "urgent").length,
+    high: all.filter((c) => c.priority === "high").length,
+    auto: all.filter((c) => !c.draft).length,
+  };
+
+  let list = all;
+  if (state.custFilter === "waiting") list = list.filter((c) => c.draft);
+  else if (state.custFilter === "vip") list = list.filter((c) => c.vip);
+  else if (state.custFilter !== "all") list = list.filter((c) => c.channel === state.custFilter);
+  if (state.custSearch.trim()) {
+    const q = state.custSearch.toLowerCase();
+    list = list.filter((c) => `${c.name} ${c.handle} ${c.customer_message || ""}`.toLowerCase().includes(q));
+  }
+
+  const chip = (key, label) => {
+    const on = state.custFilter === key;
+    return `<button class="flex-shrink-0 px-3.5 py-1.5 rounded-full ${on ? "bg-primary-container text-on-primary" : "bg-surface-container-lowest text-on-surface-variant hover:text-on-surface"} font-label-sm text-label-sm shadow-sm transition-colors" onclick="setCustFilter('${key}')">${label}</button>`;
+  };
+
+  const kpi = (label, value, sub, icon, cls) => `
+    <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full ${cls} flex items-center justify-center flex-shrink-0">
+        <span class="material-symbols-outlined text-[20px]">${icon}</span>
+      </div>
+      <div class="min-w-0">
+        <div class="font-headline-lg text-headline-lg text-on-surface leading-none">${value}</div>
+        <div class="font-micro-header text-micro-header uppercase text-on-surface-variant tracking-wider mt-1">${label}</div>
+        <div class="font-label-sm text-label-sm text-on-surface-variant">${sub}</div>
+      </div>
+    </div>`;
+
+  return `
+  <div class="max-w-[1500px] mx-auto w-full space-y-5">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      ${kpi("Khẩn cấp", counts.urgent, "cần xử lý ngay", "bolt", "bg-error-container text-on-error-container")}
+      ${kpi("Ưu tiên cao", counts.high, "theo dõi sát", "priority_high", "bg-tertiary-fixed text-on-tertiary-fixed")}
+      ${kpi("Banno tự xử lý", counts.auto, "không cần bạn", "task_alt", "bg-secondary-container text-primary")}
+    </div>
+
+    <div class="flex flex-col lg:flex-row lg:items-center gap-3">
+      <div class="relative flex-1">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+        <input value="${esc(state.custSearch)}" oninput="onCustSearch(this.value)" class="w-full h-10 pl-9 pr-3 rounded-xl bg-surface-container-lowest font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none shadow-sm" placeholder="Tìm khách hàng, nội dung, mã đơn…" type="text"/>
+      </div>
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar">
+        ${chip("all", `Tất cả ${all.length}`)}
+        ${chip("waiting", `Chờ duyệt ${all.filter((c) => c.draft).length}`)}
+        ${chip("vip", `VIP ${all.filter((c) => c.vip).length}`)}
+        ${chip("website", "Website")}
+        ${chip("telegram", "Telegram")}
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 items-start">
+      ${list.length ? list.map(customerCard).join("") : '<p class="font-body-sm text-body-sm text-on-surface-variant px-1">Không có khách hàng nào khớp bộ lọc.</p>'}
+    </div>
+  </div>`;
+}
+
 /* ---------- analytics ---------- */
+
+function hourlyChart(byHour) {
+  const W = 640, H = 150, BASE = 120, BAR = 34;
+  const max = Math.max(1, ...byHour.map((h) => h.ai + h.team));
+  const step = W / byHour.length;
+  const peak = byHour.reduce((best, h, i) => (h.ai + h.team > byHour[best].ai + byHour[best].team ? i : best), 0);
+  const scale = (v) => (v / max) * (BASE - 20);
+
+  const bars = byHour.map((h, i) => {
+    const x = i * step + (step - BAR) / 2;
+    const ht = scale(h.team), ha = scale(h.ai);
+    const isPeak = i === peak && h.ai + h.team > 0;
+    return `
+      ${ht > 0 ? `<rect x="${x}" y="${BASE - ht}" width="${BAR}" height="${ht}" rx="3" fill="#DCE2F3"></rect>` : ""}
+      ${ha > 0 ? `<rect x="${x}" y="${BASE - ht - ha}" width="${BAR}" height="${ha}" rx="3" fill="${isPeak ? "#3525CD" : "#4F46E5"}"></rect>` : ""}
+      ${isPeak ? `<circle cx="${x + BAR / 2}" cy="${BASE - ht - ha - 8}" r="3.5" fill="#A44100"></circle>` : ""}
+      <text x="${x + BAR / 2}" y="${H - 6}" text-anchor="middle" font-size="11" fill="#464555" font-family="Hanken Grotesk, system-ui">${h.hour}</text>`;
+  }).join("");
+
+  return `
+    <svg viewBox="0 0 ${W} ${H}" class="w-full" style="max-height:200px" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" x2="${W}" y1="25" y2="25" stroke="#E5E7EB" stroke-dasharray="3 3"></line>
+      <line x1="0" x2="${W}" y1="72" y2="72" stroke="#E5E7EB" stroke-dasharray="3 3"></line>
+      <line x1="0" x2="${W}" y1="${BASE}" y2="${BASE}" stroke="#E5E7EB"></line>
+      ${bars}
+    </svg>`;
+}
+
+function bentoKpi(label, value, icon, iconBg, footHtml) {
+  return `
+    <div class="flex flex-col justify-between p-4 rounded-xl bg-surface-container-lowest shadow-sm">
+      <div class="flex items-center justify-between">
+        <span class="font-micro-header text-micro-header text-on-surface-variant uppercase tracking-wider">${label}</span>
+        <div class="w-7 h-7 rounded-full ${iconBg} flex items-center justify-center">
+          <span class="material-symbols-outlined text-[16px]">${icon}</span>
+        </div>
+      </div>
+      <div class="mt-2">
+        <div class="font-headline-lg text-headline-lg text-on-surface tracking-tight">${value}</div>
+        <div class="flex items-center gap-1 mt-1 font-label-sm text-label-sm">${footHtml}</div>
+      </div>
+    </div>`;
+}
 
 function bar(label, value, total, colorCls) {
   const pct = total ? Math.round((value / total) * 100) : 0;
@@ -621,16 +792,56 @@ function renderAnalytics() {
   const intentTotal = s.by_intent.reduce((a, b) => a + b.n, 0);
   const prioColor = { urgent: "bg-error", high: "bg-tertiary-container", normal: "bg-primary", low: "bg-outline-variant" };
 
+  const peak = s.by_hour.reduce((b, h) => (h.ai + h.team > b.ai + b.team ? h : b), s.by_hour[0] || { hour: "—", ai: 0, team: 0 });
+  const peakTotal = peak.ai + peak.team;
+
   return `
   <div class="max-w-[1500px] mx-auto w-full space-y-5">
-    <section class="space-y-2.5">
-      ${sectionHeader("Tự động hoá")}
-      <div class="grid grid-cols-2 xl:grid-cols-4 gap-3">
-        ${metricTile("AI tự gửi", s.totals.auto_sent, `${s.auto_rate}% tổng số`, "bolt", "text-primary")}
-        ${metricTile("Qua duyệt", s.totals.reviewed_sent, `${s.totals.edited_sent} tin được sửa`, "verified")}
-        ${metricTile("Từ chối", s.totals.rejected, "bản nháp bị loại", "block", s.totals.rejected ? "text-error" : "text-on-surface")}
-        ${metricTile("Đang chờ", s.totals.pending, "cần bạn xử lý", "hourglass_top", s.totals.pending ? "text-tertiary-container" : "text-on-surface")}
+    <div class="grid grid-cols-2 xl:grid-cols-4 gap-3">
+      ${bentoKpi("Ca đã xử lý", s.handled, "task_alt", "bg-primary-fixed text-primary",
+        `<span class="material-symbols-outlined text-[15px] text-on-surface-variant">forum</span>
+         <span class="text-on-surface-variant">${s.totals.conversations} hội thoại</span>`)}
+      ${bentoKpi("AI tự giải quyết", s.totals.auto_sent, "smart_toy", "bg-secondary-container text-primary",
+        `<span class="material-symbols-outlined text-[15px] text-primary">auto_awesome</span>
+         <span class="text-primary">${s.auto_rate}%</span>
+         <span class="text-on-surface-variant font-micro-header text-micro-header">tỷ lệ tự động</span>`)}
+      ${bentoKpi("Phản hồi trung bình", s.avg_response_seconds ? `${s.avg_response_seconds}s` : "—", "timer", "bg-surface-container text-secondary",
+        `<span class="material-symbols-outlined text-[15px] text-on-surface-variant">bolt</span>
+         <span class="text-on-surface-variant">từ lúc khách nhắn</span>`)}
+      ${bentoKpi("Sắc thái tích cực", `${s.positive_rate}%`, "sentiment_satisfied", "bg-tertiary-fixed text-tertiary",
+        `<span class="text-on-surface-variant font-micro-header text-micro-header">${s.by_sentiment.negative || 0} tin tiêu cực / ${s.totals.inbound} tin</span>`)}
+    </div>
+
+    <section class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-3">
+      <div class="flex items-start justify-between gap-3 flex-wrap">
+        <div class="flex flex-col">
+          <span class="font-micro-header text-micro-header text-on-surface-variant uppercase tracking-wider">Lưu lượng &amp; tỷ lệ tự động</span>
+          <div class="flex items-baseline gap-2 mt-0.5">
+            <span class="font-headline-sm text-headline-sm text-on-surface">Tin đã trả lời theo giờ</span>
+            ${peakTotal ? `<span class="font-label-sm text-label-sm text-primary">Cao điểm ${esc(peak.hour)}</span>` : ""}
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-1">
+            <span class="w-2.5 h-2.5 rounded-full bg-primary-container inline-block"></span>
+            <span class="font-micro-header text-micro-header text-on-surface-variant">AI tự gửi</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <span class="w-2.5 h-2.5 rounded-full bg-surface-container-highest inline-block"></span>
+            <span class="font-micro-header text-micro-header text-on-surface-variant">Qua bạn duyệt</span>
+          </div>
+        </div>
       </div>
+      ${peakTotal
+        ? `<div class="flex items-center justify-between px-3 py-2 rounded-lg bg-surface-container-low">
+             <div class="flex items-center gap-2">
+               <span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+               <span class="font-label-sm text-label-sm text-on-surface">Giờ bận nhất đã xử lý xong</span>
+             </div>
+             <span class="font-label-sm text-label-sm text-primary">${peakTotal} tin/giờ</span>
+           </div>`
+        : ""}
+      ${hourlyChart(s.by_hour)}
     </section>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
@@ -638,7 +849,10 @@ function renderAnalytics() {
         ${sectionHeader("Mức độ ưu tiên tin khách")}
         <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-3">
           ${s.by_priority.length
-            ? s.by_priority.map((p) => bar(PRIORITY_LABEL[p.priority] || p.priority, p.n, prioTotal, prioColor[p.priority] || "bg-primary")).join("")
+            ? ["urgent", "high", "normal", "low"]
+              .map((key) => s.by_priority.find((p) => p.priority === key))
+              .filter(Boolean)
+              .map((p) => bar(PRIORITY_LABEL[p.priority] || p.priority, p.n, prioTotal, prioColor[p.priority] || "bg-primary")).join("")
             : '<p class="font-body-sm text-body-sm text-on-surface-variant">Chưa có dữ liệu.</p>'}
         </div>
       </section>
@@ -669,6 +883,51 @@ function renderAnalytics() {
         </div>
       </section>
     </div>
+
+    <section class="space-y-2.5">
+      ${sectionHeader("Hiệu suất đội agent & người duyệt")}
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+        ${s.agents.map((a) => `
+          <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col gap-2">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+                <span class="material-symbols-outlined text-[20px]">${a.icon}</span>
+              </div>
+              <div class="min-w-0">
+                <p class="font-headline-sm text-headline-sm text-sm truncate">${esc(a.name)}</p>
+                <p class="font-label-sm text-label-sm text-on-surface-variant text-[11px] truncate">${esc(a.role)}</p>
+              </div>
+            </div>
+            <div class="flex items-baseline justify-between">
+              <span class="font-headline-md text-headline-md text-on-surface">${esc(a.badge.split(" ")[0])}</span>
+              <span class="font-micro-header text-micro-header text-on-surface-variant uppercase">${esc(a.badge.split(" ").slice(1).join(" "))}</span>
+            </div>
+            <div class="bg-surface-container-low rounded-lg px-2.5 py-2 flex items-center justify-between">
+              <span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">${esc(a.metric_label)}</span>
+              <span class="font-headline-sm text-headline-sm text-on-surface text-xs">${esc(a.metric_value)}</span>
+            </div>
+          </div>`).join("")}
+        <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col gap-2 border border-tertiary-fixed-dim/60">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary flex-shrink-0">
+              <span class="material-symbols-outlined text-[20px]">pan_tool</span>
+            </div>
+            <div class="min-w-0">
+              <p class="font-headline-sm text-headline-sm text-sm truncate">Chủ shop</p>
+              <p class="font-label-sm text-label-sm text-on-surface-variant text-[11px] truncate">Người duyệt cuối</p>
+            </div>
+          </div>
+          <div class="flex items-baseline justify-between">
+            <span class="font-headline-md text-headline-md text-on-surface">${s.totals.reviewed_sent}</span>
+            <span class="font-micro-header text-micro-header text-on-surface-variant uppercase">đã duyệt</span>
+          </div>
+          <div class="bg-surface-container-low rounded-lg px-2.5 py-2 flex items-center justify-between">
+            <span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Sửa trước khi gửi</span>
+            <span class="font-headline-sm text-headline-sm text-on-surface text-xs">${s.totals.edited_sent}</span>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>`;
 }
 
@@ -696,7 +955,7 @@ function renderSettings() {
         ${row("Nhà cung cấp", h.llm.provider)}
         ${row("Khu vực", h.llm.location)}
         ${row("Telegram", h.telegram_enabled ? "Đã kết nối" : "Chưa cấu hình", h.telegram_enabled)}
-        ${row("Messenger", h.messenger_enabled ? "Đã kết nối" : "Chưa cấu hình", h.messenger_enabled)}
+        ${row("Email", h.email_enabled ? h.email_address : "Chưa cấu hình", h.email_enabled)}
       </div>
     </section>
     <section class="space-y-2.5">
@@ -704,7 +963,6 @@ function renderSettings() {
       <div class="bg-surface-container-lowest rounded-xl px-4 py-1 shadow-sm">
         ${row("Website widget", "/widget/", true)}
         ${row("Telegram bot", h.telegram_enabled ? "Đang lắng nghe" : "Tắt", h.telegram_enabled)}
-        ${row("Messenger webhook", h.messenger_enabled ? "/webhooks/messenger" : "Tắt", h.messenger_enabled)}
         ${row("Duyệt qua Telegram", h.telegram_enabled ? "Bật" : "Tắt", h.telegram_enabled)}
       </div>
     </section>
@@ -727,6 +985,8 @@ function renderSettings() {
 
 function setFilter(f) { state.filter = f; render(); }
 function onSearch(v) { state.search = v; render(); }
+function setCustFilter(f) { state.custFilter = f; render(); }
+function onCustSearch(v) { state.custSearch = v; render(); }
 function toggleEdit(id) { state.editing = state.editing === id ? null : id; render(); }
 
 async function approve(id) {
@@ -837,7 +1097,8 @@ function renderStatusPanel() {
 }
 
 function render() {
-  const views = { dashboard: renderDashboard, inbox: renderInbox, thread: renderThread, analytics: renderAnalytics, settings: renderSettings };
+  const views = { dashboard: renderDashboard, inbox: renderInbox, thread: renderThread,
+                  customers: renderCustomers, analytics: renderAnalytics, settings: renderSettings };
   // On desktop the thread lives inside the inbox two-pane layout.
   const view = isDesktop() && state.view === "thread" ? "inbox" : state.view;
   $("view").innerHTML = (views[view] || renderDashboard)();
@@ -853,10 +1114,11 @@ function render() {
 }
 
 async function refresh() {
-  const [health, conversations, pending, stats] = await Promise.all([
+  const [health, conversations, pending, stats, customers] = await Promise.all([
     jget("/api/health"), jget("/api/conversations"), jget("/api/pending"), jget("/api/stats"),
+    jget("/api/customers"),
   ]);
-  Object.assign(state, { health, conversations, pending, stats });
+  Object.assign(state, { health, conversations, pending, stats, customers });
 }
 
 async function tick() {

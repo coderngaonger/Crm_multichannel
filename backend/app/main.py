@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from . import config, db, orchestrator
-from .channels import messenger, telegram, website
+from .channels import mail, messenger, telegram, website
 
 app = FastAPI(title="Banno CRM")
 
@@ -21,6 +21,7 @@ def startup():
     db.init_db()
     telegram.start()
     messenger.start()
+    mail.start()
 
 
 app.include_router(website.router)
@@ -38,6 +39,8 @@ def health():
         "llm": info,
         "telegram_enabled": bool(config.TELEGRAM_BOT_TOKEN),
         "messenger_enabled": bool(config.MESSENGER_PAGE_ACCESS_TOKEN),
+        "email_enabled": bool(config.GMAIL_ADDRESS and config.GMAIL_APP_PASSWORD),
+        "email_address": config.GMAIL_ADDRESS,
     }
 
 
@@ -76,6 +79,55 @@ def api_manual_reply(conversation_id: int, body: ReplyBody):
         return orchestrator.send_manual_reply(conversation_id, body.text)
     except ValueError as exc:
         raise HTTPException(400, str(exc))
+
+
+@app.get("/api/customers")
+def api_customers():
+    """Customer-centric view of the inbox: who is waiting, what they asked,
+    what the agents drafted, and the order behind it."""
+    from .commerce.provider import get_provider
+
+    provider = get_provider()
+    pending_by_conv = {p["conversation_id"]: p for p in db.list_pending()}
+    out = []
+
+    for conv in db.list_conversations():
+        messages = db.list_messages(conv["id"])
+        last_in = next((m for m in reversed(messages) if m["direction"] == "in"), None)
+        customer = provider.get_customer(conv.get("customer_id"))
+        draft = pending_by_conv.get(conv["id"])
+
+        order = None
+        if last_in:
+            order = provider.find_order_mentioned(last_in["body"])
+        if not order and customer:
+            order = provider.latest_order_for_customer(customer["id"])
+
+        out.append({
+            "conversation_id": conv["id"],
+            "name": customer["name"] if customer else (conv["display_name"] or conv["external_id"]),
+            "handle": conv["display_name"] or conv["external_id"],
+            "channel": conv["channel"],
+            "vip": bool(customer and customer.get("vip")),
+            "lifetime_value": customer.get("lifetime_value") if customer else None,
+            "last_message_at": conv["last_message_at"],
+            "intent": conv["last_intent"],
+            "priority": conv["last_priority"],
+            "sentiment": last_in["sentiment"] if last_in else None,
+            "customer_message": last_in["body"] if last_in else None,
+            "reasoning": last_in["reasoning"] if last_in else None,
+            "draft_id": draft["id"] if draft else None,
+            "draft": draft["body"] if draft else None,
+            "message_count": len(messages),
+            "order": {
+                "order_number": order["order_number"],
+                "fulfillment_status": order["fulfillment_status"],
+                "financial_status": order["financial_status"],
+                "total": sum(li["price"] * li["quantity"] for li in order["line_items"]),
+                "items": ", ".join(li["title"] for li in order["line_items"]),
+            } if order else None,
+        })
+    return out
 
 
 @app.get("/api/pending")

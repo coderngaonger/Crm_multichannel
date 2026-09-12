@@ -23,6 +23,12 @@ TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 OWNER_TELEGRAM_CHAT_ID = os.getenv("OWNER_TELEGRAM_CHAT_ID", "")
 NOTIFY_AUTO_REPLIES = os.getenv("NOTIFY_AUTO_REPLIES", "true").lower() != "false"
 
+# Gmail over IMAP/SMTP. Needs an App Password (Google account with 2FA on),
+# not the normal account password.
+GMAIL_ADDRESS = os.getenv("GMAIL_ADDRESS", "")
+GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "").replace(" ", "")
+GMAIL_POLL_SECONDS = int(os.getenv("GMAIL_POLL_SECONDS", "15"))
+
 # Facebook Messenger (Meta Graph API). Needs a public HTTPS webhook.
 MESSENGER_PAGE_ACCESS_TOKEN = os.getenv("MESSENGER_PAGE_ACCESS_TOKEN", "")
 MESSENGER_VERIFY_TOKEN = os.getenv("MESSENGER_VERIFY_TOKEN", "banno-verify")
